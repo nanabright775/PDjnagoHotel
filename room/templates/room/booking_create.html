@@ -1,0 +1,191 @@
+{% extends "accountss/base.html" %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 mt-4">
+            <div class=" h-100 rounded">
+                <img class="card-img-top rounded" src="{% if room_image %}{{ room_image.url }}{% else %}https://bootdey.com/img/Content/avatar/avatar7.png{% endif %}" alt="" style="height: 400px; object-fit: cover;">
+                <div class="card-body rounded">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Room Number</strong>
+                            <span>{{ room_number }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Room Type</strong>
+                            <span>{{ room_type }} Suite</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Room Price Per Night</strong>
+                            <span>{{ price_per_night }} ETB</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Capacity</strong>
+                            <span>{{ capacity }} person</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-4">
+            <div class="card h-100 shadow-sm rounded">
+                <div class="card-body">
+                    <h6 class="card-title text-center font-weight-bold">Create Booking</h6>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="alert text-center alert-danger rounded alert-dismissible fade show">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- adding new field start-->
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="full_name">Full Name</label>
+                            <input type="text" class="form-control rounded" id="full_name" name="full_name" required>
+                            {% if form.full_name.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.full_name.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="email2">Email Address</label>
+                            <input type="email" class="form-control rounded" id="email2" name="email2" required>
+                            {% if form.email2.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.email2.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="phone_number">Contact Phone Number</label>
+                            <input type="phone_number" class="form-control rounded" id="phone_number" name="phone_number" required>
+
+                            <!-- {{ form.phone_number }} -->
+                            {% if form.phone_number.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.phone_number.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="wants_cooking_service">Do you want cooking services?</label>
+                            {{ form.wants_cooking_service }}
+                            {% if form.wants_cooking_service.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.wants_cooking_service.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class='font-weight-bold'>Meal Preferences</label>
+                            {{ form.meal_preferences }}
+                            {% if form.meal_preferences.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.meal_preferences.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="wants_cleaning_service">Do you want cleaning services?</label>
+                            {{ form.wants_cleaning_service }}
+                            {% if form.wants_cleaning_service.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.wants_cleaning_service.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>                        
+
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="wants_chef">Would you like a chef?</label>
+                            <input type="checkbox" class="form-check-input ml-2" id="wants_chef" name="wants_chef" {% if form.wants_chef.value %}checked{% endif %}>
+                            {% if form.wants_chef.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.wants_chef.errors %}{{ error }}{% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                                </div>
+                            {% endif %}
+                        </div>                        
+                        
+                        <!-- adding new field end-->
+
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="check_in_date{{ room.id }}">Check-in Date</label>
+                            <input type="date" class="form-control rounded" id="check_in_date{{ room.id }}" name="check_in_date" min="{{ today }}" required>
+                            {% if form.check_in_date.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.check_in_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class='font-weight-bold' for="check_out_date{{ room.id }}">Check-out Date</label>
+                            <input type="date" class="form-control rounded" id="check_out_date{{ room.id }}" name="check_out_date" required>
+                            {% if form.check_out_date.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.check_out_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label  class='font-weight-bold' for="guests">Number of Guests</label>
+                            <input type="number" class="form-control rounded" id="guests" name="guests" min="1" max="{{ room.capacity }}" required>
+                            {% if form.guests.errors %}
+                                <div class="alert alert-danger mt-2 alert-dismissible fade show">
+                                    {% for error in form.guests.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-sm btn-success w-50 rounded mt-5">Make Booking</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>fly away paul</p>
+
+</div>
+
+{% endblock %}

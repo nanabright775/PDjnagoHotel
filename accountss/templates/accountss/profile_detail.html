@@ -1,0 +1,103 @@
+{% extends request.template_name %}
+{% load static %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    
+    <div class="row mt-5">
+        <div class="col-md-4 mt-5">
+            <img alt="" style="width: 300px;height: 300px;object-fit: cover;" title="" class="rounded-circle img-thumbnail isTooltip" src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://ntanu.ca/wp-content/uploads/2021/09/Screen-Shot-2021-09-16-at-11.32.41-AM-1.png{% endif %}" data-original-title="Usuario">
+            <!-- Add ratings if needed -->
+        </div>
+        <div class="col-md-6 mt-5">
+            <div class="text-center"><h4>Profile Details</h4></div><br>
+            <div class="table-responsive">
+                <table class="table table-user-information">
+                    <tbody>
+                
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">
+                                        badge
+                                        </span>
+                                    Username
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">
+                                        badge
+                                        </span>
+                                    Firstname
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">
+                                        badge
+                                        </span>
+                                    Lastname
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">stacked_email</span>
+                                    Email
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.email }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">
+                                        flag_circle
+                                        </span>
+                                    Country
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.country }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">
+                                        send
+                                        </span>
+                                    Telegram Username
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.telegram_username }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="material-symbols-outlined">
+                                        smartphone
+                                        </span>
+                                    Phone Number
+                                </strong>
+                            </td>
+                            <td class="text-primary">{{ profile.phone_number }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12 d-flex justify-content-center">
+            <a href="{% url 'profile_update' profile.pk %}" class="btn btn-primary w-50 rounded">Edit</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

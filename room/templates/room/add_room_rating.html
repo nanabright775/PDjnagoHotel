@@ -1,0 +1,99 @@
+{% extends 'accountss/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<br>
+<div class="d-flex justify-content-center mt-5">
+    <div class="card shadow-lg w-50 mt-5 rounded">
+        <h5 class="card-title text-center mb-2 font-weight-bold mt-2 mb-3">Rate {{ room.room_type }} Suite with Room Number {{ room.room_number }}</h5>
+        <div class="card-body">
+            <form method="post" class="d-flex flex-column align-items-center">
+                {% csrf_token %}
+                <div class="mb-3 w-75">
+                <div class="star-rating float-left">
+                    <label class="mb-1 font-weight-bold" for="id_rating">Rating</label>&emsp;
+                        <input type="hidden" id="id_rating" name="rating" value="0">
+                        <i class="fa fa-star" data-value="1"></i>
+                        <i class="fa fa-star " data-value="2"></i>
+                        <i class="fa fa-star " data-value="3"></i>
+                        <i class="fa fa-star " data-value="4"></i>
+                        <i class="fa fa-star " data-value="5"></i>
+                    </div>
+                    {% if form.rating.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {{ form.rating.errors|first }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% for field in form %}
+                    {% if field.name != 'rating' %}
+                        <div class="mb-3 w-75">
+                            <label class="mb-1 font-weight-bold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field|add_class:"form-control rounded" }}
+                            {% if field.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ field.errors|first }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="d-flex justify-content-center w-50 mt-3 mb-5">
+                    <button type="submit" class="btn rounded btn-sm btn-primary w-50">Submit Rating</button>
+                    &ensp;<a href="{% url 'room_ratings' room.pk %}" class="btn btn-sm w-50 rounded btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .star-rating {
+        display: flex;
+        justify-content: center;
+    }
+    .star-rating i {
+        font-size: 1.35rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .star-rating i.selected,
+    .star-rating i:hover,
+    .star-rating i:hover ~ i {
+        color: #f5b301;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const stars = document.querySelectorAll('.star-rating i');
+        const ratingInput = document.getElementById('id_rating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                ratingInput.value = this.getAttribute('data-value');
+                stars.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                this.previousElementSibling && this.previousElementSibling.classList.add('selected');
+                this.previousElementSibling && this.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.classList.add('selected');
+                this.previousElementSibling && this.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling.classList.add('selected');
+                this.previousElementSibling && this.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.classList.add('selected');
+            });
+
+            star.addEventListener('mouseover', function() {
+                stars.forEach(s => s.classList.remove('hover'));
+                this.classList.add('hover');
+                this.previousElementSibling && this.previousElementSibling.classList.add('hover');
+                this.previousElementSibling && this.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.classList.add('hover');
+                this.previousElementSibling && this.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling.classList.add('hover');
+                this.previousElementSibling && this.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling && this.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.classList.add('hover');
+            });
+
+            star.addEventListener('mouseout', function() {
+                stars.forEach(s => s.classList.remove('hover'));
+            });
+        });
+    });
+</script>
+{% endblock %}

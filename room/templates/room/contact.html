@@ -1,0 +1,90 @@
+{% extends 'accountss/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .contact-masthead {
+    background-image: url("{% static '/images/hall1.jpg' %}"); /* Adjust the path to your image */
+    
+}
+</style>
+  <!-- Header -->
+  <div class="overlay1"></div>
+  <header class="masthead contact-masthead mb-5">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12 text-center">
+          <h2 class="font-weight-bold text-light">Contact</h2>
+          <p class="text-light font-weight-bold">Contact OLIKS HOMES for exceptional service and unforgettable experiences.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- End of Header -->
+
+  <!-- Main -->
+  <div class="container">
+    <!-- Map -->
+    <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+      src="https://www.openstreetmap.org/export/embed.html?bbox=38.748382568359375%2C8.980603156936173%2C38.75838279724121%2C8.990603156936173&amp;layer=mapnik&amp;marker=8.985603156936173%2C38.75338268280029"
+      style="border: 1px solid black"></iframe><br />
+    <small><a href="https://www.openstreetmap.org/?mlat=8.9856&amp;mlon=38.7534#map=16/8.9856/38.7534">View Larger Map</a></small>
+    <!-- End of Map -->
+
+    <div class="row">
+      <!-- Contact Form -->
+      <div class="col-md-8 py-5">
+        <div class="container">
+          <section class="mb-5">
+            <form>
+              <fieldset class="form-group">
+                <legend class="pb-2 font-weight-bold">Contact form</legend>
+
+                <div class="form-group">
+                  <label class="form-control-label sr-only" for="ownername">Name</label>
+                  <input class="form-control rounded" type="text" id="ownername" placeholder="Your name">
+                </div> <!-- form-group -->
+
+                <div class="form-group">
+                  <label class="form-control-label sr-only" for="owneremail">Email address</label>
+                  <input class="form-control rounded" type="email" id="owneremail" aria-describedby="email" placeholder="Your email">
+                </div> <!-- form-group -->
+
+                <div class="form-group">
+                  <label class="form-control-label sr-only" for="subject">Subject</label>
+                  <input class="form-control rounded" type="text" id="subject" aria-describedby="subject" placeholder="Subject">
+                </div> <!-- form-group -->
+
+                <div class="form-group">
+                  <label class="form-control-label sr-only" for="yourmessage">Message</label>
+                  <textarea class="form-control rounded" id="yourmessage" rows="3" placeholder="Enter your message"></textarea>
+                </div> <!-- form-group -->
+
+                <button class="btn btn-primary rounded" type="submit">Submit</button>
+              </fieldset>
+            </form>
+          </section>
+        </div> <!-- container -->
+      </div> <!-- col-md-8 -->
+      <!-- End of Contact Form -->
+
+      <!-- Sidebar -->
+      <div class="col-md-4 pt-sm-0 pt-md-5">
+        <div class="container pb-5 pl-5">
+          <div class="row">
+            <h3 class="col-sm-12 pb-2 pl-0"><i class="bi bi-geo"></i>Our Address</h3>
+            <div>
+              <p class="mb-0"><i class="bi bi-map"></i>&ensp; Mempeasem Cape Coast-Kakum Road </p>
+              <p class="pl-0">&ensp; </p>
+              <p><i class="bi bi-telephone-forward"></i>&ensp;WhatsApp &emsp;+233506601517/+233506611644</p>
+              <p><i class="bi bi-telephone-forward"></i>&ensp;Hotline &emsp;+233506601517/+233506611644</p>
+              <p><i class="bi bi-envelope"></i>&ensp;Email &emsp; olikshomes@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of Sidebar -->
+    </div> <!-- row -->
+  </div> <!-- container -->
+  <!-- End of Main -->
+{% endblock content %}

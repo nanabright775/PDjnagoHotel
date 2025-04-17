@@ -1,0 +1,103 @@
+{% extends 'admins/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card shadow-lg w-100 w-md-75 mt-4">
+        <h4 class="card-title text-center mb-4 font-weight-bold mt-2"><strong> Make Payment</strong></h4>
+        <div class="card-body">
+            <div class="row mb-2 bg-light p-2 rounded">
+                <div class="col-6"><i class="bi bi-digit"></i>&ensp;<strong>Room Number</strong></div>
+                <div class="col-6 d-flex justify-content-center">{{ booking.room.room_number }}</div>
+            </div>
+            <div class="row mb-2 bg-light p-2 rounded">
+                <div class="col-6"><i class="bi bi-type"></i>&ensp;<strong>Room Type</strong></div>
+                <div class="col-6 d-flex justify-content-center">{{ booking.room.room_type }} Suite</div>
+            </div>
+            <div class="row mb-2 bg-light p-2 rounded">
+                <div class="col-6"><i class="bi bi-calendar-plus-fill"></i>&ensp;<strong>Check-in Date</strong></div>
+                <div class="col-6 d-flex justify-content-center">{{ booking.check_in_date }}</div>
+            </div>
+            <div class="row mb-2 bg-light p-2 rounded">
+                <div class="col-6"><i class="bi bi-calendar-minus-fill"></i>&ensp;<strong>Check-out Date</strong></div>
+                <div class="col-6 d-flex justify-content-center">{{ booking.check_out_date }} Ghc</div>
+            </div>
+            <div class="row mb-2 bg-light p-2 rounded">
+                <div class="col-6"><i class="bi bi-cash"></i>&ensp;<strong>Amount Due</strong></div>
+                <div class="col-6 d-flex justify-content-center">{{ booking.original_booking_amount }} Ghc</div>
+            </div>
+            <form id="payment-form" method="post" class="d-flex flex-column align-items-center">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% for field in form %}
+                    <div class="mb-3 w-100 w-md-75">
+                        <label class="mb-1 font-weight-bold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field|add_class:"form-control rounded" }}
+                        {% if field.errors %}
+                            <div class="alert alert-danger mt-2">
+                                {{ field.errors|first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="d-flex flex-column flex-md-row justify-content-center w-100 mt-3 mb-5">
+                    <button type="button" id="pay-button" class="btn btn-sm btn-primary w-md-45 mb-2 mb-md-0">Create Payment</button>&emsp;
+                    <a href="{% url 'admins:booking_list' %}" class="btn btn-sm btn-secondary  w-md-45">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('pay-button').addEventListener('click', function() {
+    let button = this;
+    let form = document.getElementById('payment-form');
+    let formData = new FormData(form);
+
+    // Disable the button to prevent multiple clicks
+    button.disabled = true;
+    button.textContent = 'Processing...'; // Optional: Update button text
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'room_booking_receipt.pdf'; // You can dynamically set the file name here
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        window.location.href = "{% url 'admins:payment_list' %}"; // Redirect after download
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Re-enable the button in case of error
+        button.disabled = false;
+        button.textContent = 'Create Payment'; // Optional: Reset button text
+        alert('Payment failed. Please try again.');
+    });
+});
+
+</script>
+{% endblock %}

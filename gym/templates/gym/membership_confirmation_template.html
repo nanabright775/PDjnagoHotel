@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Membership Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #f0f408;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            color: #333333;
+        }
+        .content p {
+            margin: 0 0 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+            color: #777777;
+            border-top: 1px solid #dddddd;
+            margin-top: 20px;
+        }
+        .row {
+            width: 100%;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .col-6 {
+            float: left;
+            width: 50%;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        strong {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .centered-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ADAR Hotel Membership Confirmation</h1>
+        </div>
+        <div class="content">
+            <h3>Dear {% if membership.user %}{{ membership.user.first_name }}{% else %}{{ membership.for_first_name }}{% endif %},</h3>
+            <p>You have successfully activated your gym {{ membership.plan.name }}.</p>
+            <p><strong>Membership Details</strong></p>
+            <div class="row mb-2 clearfix">
+                <div class="col-6"><strong>Membership Plan</strong></div>
+                <div class="col-6">{{ membership.plan.name }}</div>
+            </div>
+            <div class="row mb-2 clearfix">
+                <div class="col-6"><strong>Start Date</strong></div>
+                <div class="col-6">{{ membership.start_date }}</div>
+            </div>
+            <div class="row mb-2 clearfix">
+                <div class="col-6"><strong>End Date</strong></div>
+                <div class="col-6">{{ membership.end_date }}</div>
+            </div>
+            <div class="row mb-2 clearfix">
+                <div class="col-6"><strong>Status</strong></div>
+                <div class="col-6">{{ membership.status }}</div>
+            </div>
+            <div class="row mb-2 clearfix">
+                <div class="col-6"><strong>For</strong></div>
+                <div class="col-6">{% if membership.for_first_name %}{{ membership.for_first_name }} {{ membership.for_last_name }}{% else %}{{ membership.user.first_name }}{% endif %}</div>
+            </div>
+            <div class="row mb-2 clearfix">
+                <div class="col-6"><strong>Amount</strong></div>
+                <div class="col-6">{{ membership.plan.price }} ETB</div>
+            </div>
+            {% if membership_url %}
+            <div class="centered-button">
+                <a href="{{ membership_url }}" class="button">View Membership</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="footer">
+            <p>Thank you for choosing our hotel!</p>
+            <p>For any assistance, please contact us at <a href="mailto:adarhotel33@gmail.com">adarhotel33@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>

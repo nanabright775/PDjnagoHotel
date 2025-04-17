@@ -1,0 +1,120 @@
+{% extends 'accountss/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Header -->
+<header class="masthead rooms-masthead mb-5">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+                <h2 class="font-weight-light text-light">Rooms</h2>
+                <p class="text-light">We hope you’ll enjoy your stay</p>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- End of Header -->
+
+<div class="container mb-2">
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-dismissible text-center mt-5 font-weight-bold alert-{{ message.tags }}">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message|safe }}
+        </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+<!-- Filter Form -->
+<div class="container mb-5">
+    <form method="get" class="form-inline justify-content-center" id="filter-form">
+        <div class="form-group mx-2">
+            <label for="price" class="sr-only">Max Price</label>
+            <select name="price" id="price" class="form-control rounded font-weight-bold">
+                <option value="" class="font-weight-bold">Select Max Price</option>
+                {% for price in price_range %}
+                    <option class="font-weight-bold" value="{{ price }}" {% if request.GET.price == price|stringformat:"s" %}selected{% endif %}>ETB {{ price }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mx-2">
+            <label for="room_type" class="sr-only font-weight-bold">Room Type</label>
+            <select name="room_type" id="room_type" class="form-control font-weight-bold rounded">
+                <option value="" class="font-weight-bold">All Room Types</option>
+                {% for type in room_types %}
+                    <option class="font-weight-bold" value="{{ type.id }}" {% if request.GET.room_type == type.id|stringformat:"s" %}selected{% endif %}>{{ type.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+</div>
+<!-- End of Filter Form -->
+
+{% if rooms %}
+<div class="container">
+    <div class="row">
+        {% for room in rooms %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm rounded">
+                <img src="{{ room.room_image.url }}" alt="{{ room.room_type.name }}" class="card-img-top rounded lazyload">
+                <div class="card-body">
+                    <h3 class="card-title"><strong>{{ room.room_type.name }} Suite</strong></h3>
+                    <p class="card-text">{{ room.description|truncatewords:20 }}</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Room Number</strong>
+                            <span>{{ room.room_number }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Price per night</strong>
+                            <span>Ghc {{ room.price_per_night }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Capacity</strong>
+                            <span>{{ room.capacity }} guests</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Average Rating</strong>
+                            <span>
+                                {% if room.average_rating %}
+                                <a href="{% url 'room_ratings' room.id %}" class="btn btn-info btn rounded  "><i class="fas fa-star text-warning"></i>{{ room.average_rating|floatformat:1 }} / 5 </a> 
+                                {% else %}
+                                    No ratings yet
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="mt-3 d-flex justify-content-center">
+                        <a href="{% url 'room_detail' room.id %}" class="btn btn-sm btn-warning rounded">Details</a>&ensp;
+                        <a href="{% url 'booking_create' room.id %}" class="btn btn-sm btn-success rounded">Book now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="container d-flex justify-content-center">
+    <div class="alert alert-warning rounded w-50" role="alert">
+        <h6 class="text-center"><i class="bi bi-info-circle"></i>&ensp;No Rooms available</h6>
+    </div>
+</div>
+{% endif %}
+<!-- Rooms Listing -->
+
+<script>
+    document.getElementById('price').addEventListener('change', function() {
+        document.getElementById('room_type').selectedIndex = 0;  // Reset room type to "All Room Types"
+        document.getElementById('filter-form').submit();
+    });
+
+    document.getElementById('room_type').addEventListener('change', function() {
+        document.getElementById('filter-form').submit();
+    });
+</script>
+
+{% endblock content %}

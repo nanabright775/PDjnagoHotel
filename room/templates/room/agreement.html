@@ -1,0 +1,166 @@
+{% extends 'accountss/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+html, body {
+  background-color: white !important;
+}
+
+.restaurant-masthead {
+  background-image: url("{% static '/images/hotelagreement.jpg' %}");
+  background-size: cover;
+  background-position: center;
+  height: 600px;
+  position: relative;
+}
+
+.overlay1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.menu-section h3 {
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.menu-section p {
+  margin-bottom: 5px;
+}
+
+.restaurant-details {
+  padding-top: 30px;
+}
+
+.card-custom {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+}
+
+.card-body-custom {
+  padding: 20px;
+}
+</style>
+
+<!-- Header -->
+<div class="overlay1"></div>
+<header class="restaurant-masthead mb-5">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h2 class="font-weight-bold text-light">Our Terma & Condition</h2>
+        <p class="font-weight-bold text-light">Understand the guidelines that ensure a seamless and exceptional staying experience at Oliks Homes</p>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- End of Header -->
+
+<!-- Main -->
+<div class="container">
+  <!-- Image Gallery -->
+  <!-- <section class="gallery">
+    <div class="row">
+      <div class="col-md-4">
+        <img src="{% static '/images/dish1.jpg' %}" class="rounded" alt="Dish 1">
+      </div>
+      <div class="col-md-4">
+        <img src="{% static '/images/dish2.jpg' %}" class="rounded" alt="Dish 2">
+      </div>
+      <div class="col-md-4">
+        <img src="{% static '/images/dish3.jpg' %}" class="rounded" alt="Dish 3">
+      </div>
+    </div>
+  </section> -->
+  <!-- End of Image Gallery -->
+
+  <!-- Menu Section -->
+  <section class="menu-section">
+    <h3>Our Terms and Agreement</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>General Terms</h4>
+            <p><strong>Additional Services</strong> – Available upon request.</p>
+            <p><strong>Damages & Breakages</strong> – Must be paid for by the guest.</p>
+            <p><strong>Electricity</strong> – 50 GHC worth provided on arrival; guests may top up for extended stays.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Payment & Cleanliness</h4>
+            <p><strong>Payment Terms</strong> – Negotiable based on length of stay.</p>
+            <p><strong>Cleanliness</strong> – Property must be kept clean and returned in original condition.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Check-in / Check-out</h4>
+            <p><strong>Check-in</strong> – From 12:00 noon.</p>
+            <p><strong>Check-out</strong> – By 11:00 AM.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Emergency Contact</h4>
+            <p><strong>WhatsApp</strong> – 0506601517 / 0506611644</p>
+            <p><strong>Phone</strong> – 0553139489 / 024018722</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- End of Menu Section -->
+
+  <!-- Restaurant Details -->
+  <section class="restaurant-details">
+    <div class="row">
+      <div class="col-md-8 py-5">
+        <div class="card card-custom">
+          <div class="card-body card-body-custom">
+            <h3>About Our Agreement</h3>
+            <p>At Oliks Homes, we believe in creating a smooth and enjoyable experience for all our guests. Additional services are available upon request, and we kindly ask that any damages or breakages be taken care of. Guests are provided with 50 GHC worth of electricity upon arrival, with the option to top up for extended stays. Payment terms are flexible and can be discussed based on the length of your visit. We encourage guests to keep the property clean and return it in the same condition as received. Check-in starts at 12:00 noon, and check-out is by 11:00 AM. For any emergencies or assistance, feel free to contact us via WhatsApp at 0506601517 / 0506611644 or call 0553139489 / 024018722.</p>          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-md-4 pt-md-5">
+        <div class="card card-custom">
+          <div class="card-body card-body-custom">
+            <h3 class="pb-2"><i class="bi bi-geo"></i> Our Location</h3>
+            <p><i class="bi bi-map"></i> Mempeasem Cape Coast-Kakum Road</p>
+            <p><i class="bi bi-telephone-forward"></i> Phone: +233553139489/+23324018722</p>
+            <p><i class="bi bi-envelope"></i> Email: olikshomes@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End of Restaurant Details -->
+</div>
+<!-- End of Main -->
+
+{% endblock content %}

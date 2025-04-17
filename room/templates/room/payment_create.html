@@ -1,0 +1,125 @@
+{% extends "accountss/base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="container" style="margin-top: 7rem;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }}">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container mb-5">
+    <h3 class="text-center mb-3 font-weight-bold" style="margin-top: 1rem;">Payment</h3>
+    <div class="row justify-content-center">
+        <!-- User Details Column -->
+        <div class="col-md-6 mt-3">
+            <div class="card h-100 shadow-sm rounded">
+                <div class="card-body">
+                    <h5 class="card-title mb-4 font-weight-bold"><i class="bi bi-file-earmark-person-fill"></i>&ensp;User Details</h5>
+                    <div class="row mb-2">
+                        <div class="col-4"><i class="bi bi-person"></i>&ensp;<strong>First Name</strong></div>
+                        <div class="col-8">{{ booking.user.first_name }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><i class="bi bi-person"></i>&ensp;<strong>Last Name</strong></div>
+                        <div class="col-8">{{ booking.user.last_name }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><i class="bi bi-envelope-fill"></i>&ensp;<strong>Email</strong></div>
+                        <div class="col-8">{{ booking.user.email }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Booking Details Column -->
+        <div class="col-md-6 mt-3">
+            <div class="card h-100 shadow-sm rounded">
+                <div class="card-body">
+                    <h5 class="card-title mb-4 font-weight-bold"><i class="bi bi-box-arrow-down"></i>&ensp;Booking Details</h5>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-list-ol"></i>&ensp;<strong>Room Number</strong></div>
+                        <div class="col-6">{{ booking.room }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-calendar-plus-fill"></i>&ensp;<strong>Check-in Date</strong></div>
+                        <div class="col-6">{{ booking.check_in_date }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-calendar-minus-fill"></i>&ensp;<strong>Check-out Date</strong></div>
+                        <div class="col-6">{% if booking.extended_check_out_date %} {{ booking.extended_check_out_date }} {% else %} {{ booking.check_out_date }} {% endif %}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-cash"></i>&ensp;<strong>Amount Due</strong></div>
+                        <div class="col-6">{{ amount }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Payment Form -->
+    <form id="paymentForm" method="post" enctype="multipart/form-data" class="mt-5">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4 rounded shadow-sm">
+                    <h5 class="mb-4 text-center font-weight-bold font-weight-bold">Payment Method</h5>
+                    <div class="d-flex flex-column align-items-center gap-3">
+                        <label class="payment-option d-flex align-items-center w-75 justify-content-center rounded">
+                            <input id="chapaRadio" type="radio" name="payment_method" value="chapa" hidden>
+                            <span class="custom-radio"></span>
+                            <img src="{% static 'images/chapa-logo.png' %}" alt="Chapa" style="height: 30px; margin-left: 10px;">
+                            <span class="ml-3">Chapa</span>
+                        </label>
+                        <label class="payment-option d-flex align-items-center w-75 justify-content-center rounded">
+                            <input id="paypalRadio" type="radio" name="payment_method" value="paypal" hidden checked>
+                            <span class="custom-radio"></span>
+                            <img src="{% static 'images/paypal-logo.png' %}" alt="PayPal" style="height: 30px; margin-left: 10px;">
+                            <span class="ml-3">PayPal</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn btn-sm btn-success w-75 rounded" type="submit">Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const options = document.querySelectorAll('.payment-option');
+        
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                options.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input').checked = true;
+            });
+        });
+    });
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+    var chapaRadio = document.getElementById('chapaRadio');
+    if (chapaRadio.checked) {
+        this.target = '_blank';
+    } else {
+        this.target = '_self';
+    }
+});
+</script>
+
+<style>
+    
+</style>
+
+{% endblock content %}

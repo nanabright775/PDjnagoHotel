@@ -1,0 +1,172 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4 text-center"><strong>Hall Reports</strong></h3>
+
+    <!-- Calculated Reports -->
+    <div class="card shadow-sm rounded mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3"><i class="bi bi-calculator"></i><strong> Calculated Reports</strong></h5>
+            <div class="row mb-2">
+                <div class="col-5"><strong>This Month's Hall Bookings</strong></div>
+                <div class="col-7">{{ monthly_hall_bookings }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-5"><strong>This Month's Hall Revenue</strong></div>
+                <div class="col-7">ETB {{ monthly_hall_revenue }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popularity Report -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm h-100">
+                <div class="card-header">
+                    <h5 class="card-title"><strong>Hall Popularity</strong></h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for hall in popular_halls %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ hall.hall__hall_number }}</span>
+                                <span>{{ hall.total }} bookings</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Data Reports -->
+    <div class="card shadow-sm rounded mb-4 mt-4">
+        <div class="card-header">
+            <h5 class="card-title"><strong>All Data Reports</strong></h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <form action="{% url 'admins:export_hall_report' 'bookings' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning btn-block">
+                            <i class="bi bi-download"></i> Download All Hall Bookings Report
+                        </button>
+                    </form>
+                </div>
+                <!-- All Payments Report -->
+                <div class="col-md-6 mb-3">
+                    <form id="all_payments_form" method="POST" action="{% url 'admins:export_hall_report' 'all_payments' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning btn-block" ">
+                            <i class="bi bi-download"></i> Download All Payments Report
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <button type="button" class="btn btn-warning btn-block" onclick="toggleForm('monthly_bookings_form')">
+                        <i class="bi bi-download"></i> Download Monthly Bookings Report
+                    </button>
+                    <form id="monthly_bookings_form" method="POST" action="{% url 'admins:export_hall_report' 'monthly_bookings' %}" style="display: none;" onsubmit="return validateDates('start_month_bookings', 'end_month_bookings', 'payments_error')">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="start_month_payments"><strong>Start Month</strong></label>
+                                <input type="month" id="start_month_bookings" name="start_month" class="form-control form-control-sm mt-2" required>
+                            </div>
+                            <div class="col">
+                                <label for="end_month_payments"><strong>End Month</strong></label>
+                                <input type="month" id="end_month_bookings" name="end_month" class="form-control form-control-sm mt-2" required>
+                                <div id="payments_error" class="text-danger mt-2"></div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-warning btn-block btn-sm mt-2">
+                                    <i class="bi bi-download"></i> Submit and Download
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Monthly Payments Report -->
+                <div class="col-md-6 mb-3">
+                    <button type="button" class="btn btn-warning btn-block" onclick="toggleForm('monthly_payments_form')">
+                        <i class="bi bi-download"></i> Download Monthly Payments Report
+                    </button>
+                    <form id="monthly_payments_form" method="POST" action="{% url 'admins:export_hall_report' 'monthly_payments' %}" style="display: none;" onsubmit="return validateDates('start_month_payments', 'end_month_payments', 'payments_error')">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="start_month_payments"><strong>Start Month</strong></label>
+                                <input type="month" id="start_month_payments" name="start_month" class="form-control form-control-sm mt-2" required>
+                            </div>
+                            <div class="col">
+                                <label for="end_month_payments"><strong>End Month</strong></label>
+                                <input type="month" id="end_month_payments" name="end_month" class="form-control form-control-sm mt-2" required>
+                                <div id="payments_error" class="text-danger mt-2"></div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-warning btn-block btn-sm mt-2">
+                                    <i class="bi bi-download"></i> Submit and Download
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Monthly Revenue Report -->
+                <div class="col-md-6 mb-3">
+                    <button type="button" class="btn btn-warning btn-block" onclick="toggleForm('monthly_revenue_form')">
+                        <i class="bi bi-download"></i> Download Monthly Revenue Report
+                    </button>
+                    <form id="monthly_revenue_form" method="POST" action="{% url 'admins:export_hall_report' 'monthly_revenue' %}" style="display: none;" onsubmit="return validateDates('start_month_revenue', 'end_month_revenue', 'revenue_error')">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="start_month_revenue"><strong>Start Month</strong></label>
+                                <input type="month" id="start_month_revenue" name="start_month" class="form-control form-control-sm mt-2" required>
+                            </div>
+                            <div class="col">
+                                <label for="end_month_revenue"><strong>End Month</strong></label>
+                                <input type="month" id="end_month_revenue" name="end_month" class="form-control form-control-sm mt-2" required>
+                                <div id="revenue_error" class="text-danger mt-2"></div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-warning btn-block btn-sm mt-2">
+                                    <i class="bi bi-download"></i> Submit and Download
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleForm(formId) {
+        var form = document.getElementById(formId);
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+
+    function validateDates(startId, endId, errorId) {
+        var startMonth = document.getElementById(startId).value;
+        var endMonth = document.getElementById(endId).value;
+        var errorDiv = document.getElementById(errorId);
+
+        if (startMonth && endMonth) {
+            if (new Date(startMonth + "-01") > new Date(endMonth + "-01")) {
+                errorDiv.innerHTML = `<p class='small'><i class="bi bi-info-circle"></i> End Month cannot be earlier than Start Month.</p>`;
+                return false;
+            } else {
+                errorDiv.textContent = ""; // Clear error message if validation passes
+            }
+        }
+
+        return true;
+    }
+</script>
+{% endblock %}

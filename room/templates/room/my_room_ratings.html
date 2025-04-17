@@ -1,0 +1,56 @@
+{% extends 'accountss/base.html' %}
+
+{% load rating_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mt-5">
+        {% for rating in ratings %}
+            <div class="col-md-6 mb-4 mt-5">
+                <div class="card h-100 shadow-lg rounded">
+                    <div class="card-body">
+                        <h6 class="card-title font-weight-bold">
+                            Rating &emsp;
+                            {% rating_range rating.rating as range %}
+                            {% for i in range %}
+                                <i class="fas fa-star text-warning small"></i>
+                            {% endfor %}
+                        </h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Room Type</strong>
+                                <span>{{ rating.room.room_type }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Room Number</strong>
+                                <span>{{ rating.room.room_number }}</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4">
+                            <h6 class="card-title font-weight-bold"><i class="bi bi-card-text"></i>&ensp;Review</h6>
+                            <p class="card-text">{{ rating.review }}</p>
+                            <small class="text-muted">Rated by {{ rating.user.username }} on {{ rating.rating_date }}</small>
+                        </div>
+                        {% if rating.user == request.user %}
+                            <div class="mt-3 d-flex justify-content-center">
+                                <a href="{% url 'edit_room_rating' rating.pk %}" class="btn btn-primary btn-sm rounded">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>&emsp;
+                                <a href="{% url 'delete_room_rating' rating.pk %}" class="btn btn-danger btn-sm rounded">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 mt-5">
+                <div class="alert alert-warning rounded text-center w-50 mx-auto" role="alert">
+                    <h6><i class="bi bi-info-circle"></i> No ratings yet.</h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

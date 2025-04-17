@@ -1,0 +1,82 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 mt-5 mb-5">
+            <img src="{% if object.room.room_image %}{{ object.room.room_image.url }}{% else %}https://bootdey.com/img/Content/avatar/avatar7.png{% endif %}" alt="{{ object.room.room_type }}" class="img-fluid rounded" style="width: 600px; height: 400px; object-fit: cover;">
+        </div>
+        <div class="col-md-6 mt-5 mb-4">
+            <div class="card shadow-lg rounded">
+                <div class="card-body">
+                    <h3 class="card-title font-weight-bold"><i class="bi bi-list-ol"></i>&ensp;{{ object.room.room_number }} &emsp; {{ object.room.room_type }} Suite</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-person"></i>&ensp;Customer Name</strong>
+                            <span>{% if booking.user%} {{ booking.user.get_full_name }}{% else %}{{ booking.full_name}}{% endif %}</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-person"></i>&ensp;Email</strong>
+                            <span>{{ object.email2 }}</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-phone"></i>&ensp;Phone</strong>
+                            <span>{{ object.phone_number }}</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-tag"></i>&ensp;Total Amount</strong>
+                            <span>Ghc {{ object.total_amount }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-tag"></i>&ensp;Booking Extend Amount</strong>
+                            <span>Ghc {{ object.booking_extend_amount }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-calendar-check"></i>&ensp;Check In Date</strong>
+                            <span>{{ object.check_in_date }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-calendar-x"></i>&ensp;Check Out Date</strong>
+                            <span>{{ object.check_out_date }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-calendar-plus"></i>&ensp;Extended Check Out Date</strong>
+                            <span>{{ object.extended_check_out_date|default:"-" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-egg-fried"></i>&ensp;Want Chef</strong>
+                            <span>{{ object.wants_chef }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-egg-fried"></i>&ensp;Meal</strong>
+                            <span>{{ object.meal_preferences }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-egg-fried"></i>&ensp;Clean Services</strong>
+                            <span>{{ object.wants_cleaning_service }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-cash-stack"></i>&ensp;Paid</strong>
+                            <span>{{ object.is_paid }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-people-fill"></i>&ensp;Guests</strong>
+                            <span>{{ object.guests }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-info-circle"></i>&ensp;Status</strong>
+                            <span>{{ object.get_status_display }}</span>
+                        </li>
+                    </ul>
+                    <div class="mt-3 d-flex justify-content-center">
+                        <a href="{% url 'admins:booking_list' %}" class="btn btn-sm btn-secondary rounded">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

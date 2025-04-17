@@ -1,0 +1,101 @@
+{% extends 'admins/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-4 mb-4">
+    <div class="card shadow-lg rounded mx-auto" style="max-width: 100%;">
+
+        <div class="card-body">
+            <h5 class="card-title text-center mb-3"><strong>Select Payment Method</strong></h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Hall Type</strong>
+                    <span>{{ hall_booking.hall.hall_type }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Hall Number</strong>
+                    <span>{{ hall_booking.hall.hall_number }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>User</strong>
+                    <span>{{ hall_booking.full_name }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Booking ID</strong>
+                    <span>{{ hall_booking.id }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Amount Due</strong>
+                    <span>{{ hall_booking.amount_due }} ETB</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Booking Status</strong>
+                    <span>{{ hall_booking.status }}</span>
+                </li>
+            </ul>
+
+            <form id="payment-form" method="post" class="mt-4">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                        {{ field|add_class:"form-control form-control-sm rounded" }}
+                        {% if field.errors %}
+                            <div class="alert alert-danger mt-2">
+                                {{ field.errors|first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="button" id="pay-button" class="btn btn-success rounded w-75 w-md-25">Confirm Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('pay-button').addEventListener('click', function() {
+        let button = this;
+        let form = document.getElementById('payment-form');
+        let formData = new FormData(form);
+        
+        // Disable the button to prevent multiple clicks
+        button.disabled = true;
+        button.textContent = 'Processing...'; // Optional: Update button text
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            let url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'hall_booking_receipt.pdf'; // You can dynamically set the file name here
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+            window.location.href = "{% url 'admins:hall_booking_list' %}"; // Redirect after download
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Re-enable the button in case of error
+            button.disabled = false;
+            button.textContent = 'Confirm Payment'; // Optional: Reset button text
+            alert('Payment failed. Please try again.');
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OLIKS ADMIN</title>
+<link rel="icon" type="image/x-icon" href="{% static 'images/favicon-32x32.png' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@355&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/style3.css' %}">
+<link rel="stylesheet" href="{% static 'css/style7.css?v=1.0' %}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    
+
+    
+    .dropdown-toggle::after {
+        display: none; /* Hide caret */
+    }
+
+    .dropdown-menu {
+        padding: 0;
+    }
+
+    
+    .dropdown-menu {
+    padding: 0;
+    z-index: 1050; /* Make sure dropdown is on top */
+    background-color: #ffffff00; /* Ensure background color */
+    width: 100%; /* Ensure the dropdown spans the width of its parent */
+
+ 
+     /* Align dropdown to the left of its parent */
+}
+/* Ensure no margin or padding between dropdown toggle and menu */
+.dropdown-toggle {
+    margin-bottom: 0 !important; /* Overrides any default margin */
+    padding-bottom: 0 !important; /* Remove padding that might add space */
+}
+
+.dropdown-menu {
+    margin-top: 0 !important; /* Ensures there's no gap */
+    padding-top: 0 !important; /* Adjusts the padding to prevent any space */
+    transform: translateY(0px) !important; /* Resets any possible translation causing the gap */
+}
+
+.dropdown-item {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin: 0 !important;
+}
+#account-dropdown-menu {
+    background-color: white;
+    padding: 15px;
+    }
+
+    .sidebar-brand {
+        border-bottom: 4px solid rgb(0, 0, 0);
+        border-radius: 5px;
+        margin-top: 2px;
+    
+        }
+        
+        .sidebar-brand {
+        padding: 5px 0px;
+        margin: 5px 5px;
+        }
+
+    
+    
+</style>
+</head>
+<body>
+<div id="wrapper" class="wrapper-content">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a class="text-warning font-weight-bold fs-3" href="{% url 'admins:admin_dashboard' %}">
+                    OLIKS ADMIN
+                </a>
+            </li>
+            <!-- Room Dropdown -->
+<li class="dropdown dropdown-center mt-3">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center fs-5" href="#" id="roomDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Rooms</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border-0 dropdown-menu-end position-static" aria-labelledby="roomDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:category_list' %}"><strong>Room Categories</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:room_list' %}"><strong>Rooms</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:booking_list' %}"><strong>Room Bookings</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:payment_list' %}"><strong>Room Payments</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+
+<!-- Membership Dropdown -->
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="membershipDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Gym</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static " aria-labelledby="membershipDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2 " href="{% url 'admins:membershipplan_list' %}"><strong>Membership Plans</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:membership_list' %}"><strong>Memberships</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:membershippayment_list' %}"><strong>Membership Payments</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+
+<!-- Hall Dropdown -->
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="hallDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Halls</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static" aria-labelledby="hallDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:hall_list' %}"><strong>Halls</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:hall_booking_list' %}"><strong>Hall Bookings</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:hall_payment_list' %}"><strong>Hall Payments</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+
+<!-- Spa Dropdown -->
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="spaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Spa</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static" aria-labelledby="spaDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:spa_service_list' %}"><strong>Spa Services</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:spa_package_list' %}"><strong>Spa Packages</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:spa_booking_list' %}"><strong>Spa Bookings</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:spa_payment_list' %}"><strong>Spa Payments</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+
+<!-- Chat Dropdown -->
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="chatDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Chat</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static" aria-labelledby="chatDropdown">
+        
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:chat_list' %}"><strong>Chat List</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'chat' %}"><strong>ADAR AI</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="chatDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Social Media</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static" aria-labelledby="chatDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'post_create' %}"><strong>Post to Social Media</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'post_list' %}"><strong>Social Media Posts</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="chatDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Reports</strong>
+        <span class="ms-auto fs-6 ">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static" aria-labelledby="chatDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:spa_reports' %}"><strong>Spa Reports</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:room_reports' %}"><strong>Room Reports</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:hall_reports' %}"><strong>Hall Reports</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:membership_reports' %}"><strong>Membership Reports</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        
+    </ul>
+</li>
+
+{% if user.role == 'owner' %}
+<!-- Manager Dropdown -->
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="managerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Manage Users </strong>
+        <span class="ms-auto fs-6"><i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;</span>
+    </a>
+    <ul class="dropdown-menu border border-bottom dropdown-menu-end position-static" aria-labelledby="managerDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:customer_list' %}"><strong>Customers</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:manager_list' %}"><strong>Managers</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:receptionist_list' %}"><strong>Receptionists</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+{% elif user.role == 'manager' %}
+<!-- Receptionist Dropdown -->
+<li class="dropdown mt-2">
+    <a class="dropdown-toggle fs-5  d-flex justify-content-between align-items-center" href="#" id="receptionistDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <strong>Receptionists</strong>
+        <span class="ms-auto fs-6">
+<i class="fa fa-chevron-down" aria-hidden="true"></i>&ensp;
+</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end position-static" aria-labelledby="receptionistDropdown">
+        <li><a class="dropdown-item pt-0 pr-0 pb-0  pl-2" href="{% url 'admins:receptionist_list' %}"><strong>Receptionists</strong></a></li>
+        <div class="dropdown-divider p-0 m-0"></div>
+    </ul>
+</li>
+{% endif %}
+
+        </ul>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid d-flex align-items-center justify-content-between">
+                <div class="navbar-header">
+                    <button class="btn-menu btn btn-warning rounded btn-toggle-menu" type="button">
+                        <i class="bi bi-layout-sidebar"></i>
+                    </button>
+                </div>
+                <div class="dropdown" id="account-dropdown">
+                    <button style="outline: none;" id="account-dropdown-toggle" class="btn dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if user.profile_picture and user.profile_picture.url %}
+                            <img src="{{ user.profile_picture.url }}" class="rounded-circle" alt="{{ user.username }}" style="width: 30px; height: 30px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'default_profile_picture.png' %}" class="rounded-circle" alt="Default profile picture" style="width: 30px; height: 30px; object-fit: cover;">
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end " id="account-dropdown-menu"  aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item fs-5 mt-2" href="{% url 'profile_detail' user.pk %}"><i class="bi bi-person"></i> Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item text-danger fs-5"><i class="bi bi-box-arrow-in-left"></i> Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        {% block content %}
+        {% endblock content %}
+    </div>
+</div>
+
+<!-- jQuery, Popper.js, and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+    $(".btn-toggle-menu").click(function() {
+        $("#wrapper").toggleClass("toggled");
+    });
+});
+</script>
+</body>
+</html>

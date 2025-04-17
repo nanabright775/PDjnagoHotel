@@ -1,0 +1,155 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }} rounded">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+<h4 class="text-center mt-4 mb-4"><strong>Hall Booking List</strong></h4>
+
+<div class="container mt-5">
+    <!-- Search Form -->
+    <form method="get" action="" class="mb-4 d-flex flex-wrap justify-content-between">
+        <div class="input-group mb-2 mb-md-0 w-100 w-md-75">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search by user, hall number, or booking reference" value="{{ request.GET.search }}">
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-warning pb-3" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap w-100 w-md-50 justify-content-center justify-content-md-end mt-2">
+            <a href="{% url 'admins:hall_availability' %}" class="btn btn-primary btn-sm mb-2 mb-md-0">Create Hall Booking</a>&ensp;
+            <a href="{% url 'admins:hall_booking_list' %}" class="btn btn-sm btn-success ms-md-2">Show All</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th>User</th>
+                    <th>Hall Number</th>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Amount Due</th>
+                    <th>Status</th>
+                    <th>Occupied</th>
+                    <th>Transaction Id</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if object_list %}
+                {% for booking in object_list %}
+                <tr>
+                    <td>{% if booking.full_name %}{{ booking.full_name }}{% else %}{{ booking.user.username }}{% endif %}</td>
+                    <td>{{ booking.hall.hall_number }}</td>
+                    <td>{{ booking.hall.hall_type }}</td>
+                    <td>{{ booking.start_date }}</td>
+                    <td>{{ booking.end_date }}</td>
+                    <td>{{ booking.start_time }}</td>
+                    <td>{{ booking.end_time }}</td>
+                    <td>{{ booking.amount_due }}</td>
+                    <td>{{ booking.get_status_display }}</td>
+                    <td>{{ booking.occupied }}</td>
+                    <td>{{ booking.tx_ref }}</td>
+                    <td class="">
+        <!-- View button -->
+        <a href="{% url 'admins:hall_booking_detail' booking.pk %}" class="btn btn-link text-warning p-0">
+            <span class="material-symbols-outlined">info</span>
+        </a>
+                        <!-- Edit button (only show if booking is not cancelled) -->
+        
+        
+                         {% if booking.status != 'cancelled' %}
+        <a href="{% url 'admins:hall_booking_update' booking.pk %}" class="btn btn-link text-primary p-0">
+            <span class="material-symbols-outlined">edit_note</span>
+        </a>
+        {% endif %}
+        
+        
+        
+        <!-- Download ID Image button (only show if id_image exists) -->
+        {% if booking.id_image %}
+        <a href="{% url 'admins:hall_download_id_image' booking.pk %}" class="btn btn-link text-info p-0">
+            <span class="material-symbols-outlined">download</span>
+        </a>
+        {% endif %}
+
+                        {% if booking.status == 'pending' %}
+                            <a href="{% url 'admins:hall_payment_create' pk=booking.pk %}" class="btn btn-link text-warning">
+                                <span class="material-symbols-outlined">payments</span>
+                            </a>
+                            {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="11" class="text-center text-danger">No data available</td>  
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link bg-warning text-dark">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:-5 and num < page_obj.number|add:5 %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+{% endblock %}

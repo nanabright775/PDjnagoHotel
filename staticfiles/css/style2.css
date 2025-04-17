@@ -1,0 +1,29 @@
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    }
+    
+
+.dropdown-toggle:focus {
+box-shadow: none !important;
+}
+#book:focus {
+box-shadow: none !important;
+outline: none !important;
+}
+/* Ensure the carousel takes full width and height */
+/* Ensure the carousel takes full width and height */
+.carousel-item.slide-1 {
+    background-image: url('../images/lobby.jpg');
+}
+
+.carousel-fade {
+    overflow: hidden;
+}
+.form-control {
+    border-radius: 0.5rem;
+}
+
+.carousel-item {
+    height: calc(100vh - var(--navbar-height));
+}

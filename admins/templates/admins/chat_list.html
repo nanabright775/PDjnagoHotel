@@ -1,0 +1,23 @@
+{% extends 'admins/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style7.css?v=1.0' %}">
+
+<h3 class="text-center text-danger mt-2">User Chat List</h3>
+<div class="container mt-5 w-75 mx-auto ">
+    <div class="chat-list-box">
+        <ul class="list-group shadow-sm">
+            {% for user in users %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'admins:chat_detail' user.id %}" class="text-dark text-decoration-none">
+                        {{ user.username }}
+                        <span class="badge bg-warning rounded-pill">Chat</span>
+                    </a> 
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

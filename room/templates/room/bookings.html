@@ -1,0 +1,113 @@
+{% extends "accountss/base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+<br>
+<div class="container mt-5">
+    <h3 class="text-center mb-5 font-weight-bold">Your Room Bookings</h3>
+      <!-- Centered dismissable alert -->
+<div class="container mt-3 mb-2">
+    <div class="alert alert-warning alert-dismissible fade show text-center " role="alert">
+        <i class="bi bi-info-circle"></i>&ensp;Pending bookings will be cancelled automatically if payment isn't completed within two days of creating the booking.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+    
+    <!-- Filter Button Group -->
+    <div class="btn-group  d-flex justify-content-center mb-4" role="group" aria-label="Filter Bookings">
+        <a href="{% url 'bookings' %}" class="btn rounded btn-sm mx-1 {% if not request.GET.status %}btn-warning{% else %}btn-outline-dark{% endif %}">All</a>
+        <a href="{% url 'bookings' %}?status=pending" class="btn rounded btn-sm mx-1 {% if request.GET.status == 'pending' %}btn-warning{% else %}btn-outline-dark{% endif %}">Pending</a>
+        <a href="{% url 'bookings' %}?status=confirmed" class="btn rounded btn-sm mx-1 {% if request.GET.status == 'confirmed' %}btn-warning{% else %}btn-outline-dark{% endif %}">Confirmed</a>
+        <a href="{% url 'bookings' %}?status=cancelled" class="btn  rounded btn-sm mx-1 {% if request.GET.status == 'cancelled' %}btn-warning{% else %}btn-outline-dark{% endif %}">Cancelled</a>
+    </div>
+
+    <div class="container" style="margin-top: 1rem;">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-dismissible text-center font-weight-bold mt-5 alert-{{ message.tags }}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {% with filter_status=request.GET.status %}
+            {% for booking in bookings %}
+                {% if not filter_status or booking.status == filter_status %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 rounded shadow">
+                            <div class="card-body">
+                                <h5 class="card-title"><strong><i class="bi bi-list-ol"></i>&ensp;Room number</strong>  {{ booking.room.room_number }}</h5>
+                                <img src="{{booking.room.room_image.url}}"  class="card-img-top rounded">
+                                
+                                <div class="row mb-2 mt-3">
+                                    <div class="col-sm-12 text-center"><strong><i class="bi bi-border-style"></i>&ensp;{{ booking.room.room_type }} Suite</strong></div>
+                                    
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6 text-left"><strong><i class="bi bi-calendar-plus"></i>&ensp;Check-in date</strong></div>
+                                    <div class="col-sm-6 text-center">{{ booking.check_in_date }}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6 text-left"><strong><i class="bi bi-calendar-minus"></i>&ensp;Check-out date</strong></div>
+                                    <div class="col-sm-6 text-center">{% if booking.extended_check_out_date %} {{booking.extended_check_out_date}} {% else %} {{ booking.check_out_date }} {% endif %}</div>
+                                </div>
+        
+                                
+                                <div class="row mb-2">
+                                    <div class="col-sm-6 text-left"><strong><i class="bi bi-door-open-fill"></i>&ensp;Booking Status</strong></div>
+                                    <div class="col-sm-6 text-center">{{ booking.get_status_display }}</div>
+                                </div>
+
+                                <div class="d-flex justify-content-center m-3">
+                                    {% if booking.status == 'pending' %}
+                                        <a href="{% url 'payment_create' booking_id=booking.id %}" class="btn btn-sm btn-success rounded">Pay</a>&ensp;
+                                    {% endif %}
+    
+                                    {% if not booking.status == 'cancelled' %}
+                                        <a href="{% url 'booking_extend' booking_id=booking.id %}" class="btn btn-sm btn-warning rounded">Extend booking</a>&ensp;
+                                        <button type="button" class="btn btn-sm btn-danger rounded" data-toggle="modal" data-target="#deleteModal{{booking.id}}">Cancel booking</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal for cancel booking -->
+                    <div class="modal rounded" id="deleteModal{{booking.id}}">
+                        <div class="modal-dialog rounded">
+                            <div class="modal-content rounded">
+                                <div class="modal-header border-0 rounded">
+                                    <h5 class="modal-title">Delete Booking</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body border-0 rounded">
+                                    Are you sure you want to cancel your booking?
+                                </div>
+                                <div class="modal-footer border-0 rounded">
+                                    <form method="post" action="{% url 'booking_cancel' pk=booking.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm rounded btn-danger">Confirm</button>
+                                    </form>
+                                    <button type="button" class="btn btn-sm rounded btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% empty %}
+            <div class="container d-flex justify-content-center">
+                <div class="alert alert-warning rounded mt-3" role="alert">
+                    <h6 class="text-center"><i class="bi bi-info-circle"></i>&ensp;No bookings have been made</h6>
+                </div>
+            </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock content %}

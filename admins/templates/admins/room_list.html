@@ -1,0 +1,173 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }} rounded">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="container-fluid mt-5">
+    <!-- Search Form -->
+    <form method="get" action="" class="mb-4 d-flex flex-wrap justify-content-between">
+        <div class="input-group mb-3 w-100 w-md-75">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search by room number or type" value="{{ request.GET.search }}">
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-warning pb-3" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap w-100 w-md-25 justify-content-center justify-content-md-end">
+            <a href="{% url 'admins:room_add' %}" class="btn btn-primary btn-sm mb-2 mb-md-0">Create Room</a>&ensp;
+            <a href="{% url 'admins:room_list' %}" class="btn btn-sm btn-success">Show All</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Room Number</th>
+                    <th scope="col">Room Type</th>
+                    <th scope="col">Price per Night</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Floor</th>
+                    <th scope="col">Average Rating</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if object_list %}
+                {% for item in object_list %}
+                <tr>
+                    <td class="align-middle">{{ item.room_number }}</td>
+                    <td class="align-middle">{{ item.room_type.name }}</td>
+                    <td class="align-middle">ETB {{ item.price_per_night }}</td>
+                    <td class="align-middle">{{ item.get_room_status_display }}</td>
+                    <td class="align-middle">{{ item.capacity }}</td>
+                    <td class="align-middle">{{ item.floor }}</td>
+                    <td class="align-middle">{% if item.average_rating %}{{ item.average_rating|floatformat:1 }} / 5{% else %} No ratings yet{% endif %}</td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <!-- Edit button -->
+                            <a href="{% url 'admins:room_update' item.id %}" class="btn btn-link text-primary">
+                                <span class="material-symbols-outlined">edit_note</span>
+                            </a>
+                            <a href="{% url 'admins:room_ratings' item.id %}" class="btn btn-link text-success">
+                                <span class="material-symbols-outlined">
+                                    family_star
+                                    </span>
+                            </a>
+                            
+                            
+                            <!-- View button -->
+                            <a href="{% url 'admins:room_detail' item.id %}" class="btn btn-link text-warning">
+                                <span class="material-symbols-outlined">info</span>
+                            </a>
+                            <!-- Delete button with modal trigger -->
+                            <button type="button" class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="{{ item.id }}">
+                                <span class="material-symbols-outlined">delete_forever</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this room?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-danger">No data available</td>  
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link bg-warning text-dark">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:-5 and num < page_obj.number|add:5 %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+    confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var roomId = button.getAttribute('data-id');
+        var deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = '{% url "admins:room_delete" 0 %}'.replace('0', roomId);
+    });
+});
+</script>
+{% endblock content %}

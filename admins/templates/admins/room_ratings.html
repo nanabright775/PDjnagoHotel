@@ -1,0 +1,85 @@
+{% extends 'admins/base.html' %}
+{% load static rating_tags %}
+
+{% block content %}
+<br>
+<div class="container mt-5 mb-5">
+    <h4 class="text-center mt-5"><strong>{{ room.room_type.name }} {{ room.room_number }} - Ratings</strong></h4>
+    <hr>
+
+    {% if ratings %}
+        {% for rating in object_list %}
+        <div class="card mb-3 shadow-sm rounded">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    {% if rating.user.profile_picture and rating.user.profile_picture.url %}
+                        <img src="{{ rating.user.profile_picture.url }}" class="rounded-circle" alt="{{ rating.user.username }}"
+                            style="width: 30px; height: 30px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'default_profile_picture.png' %}" class="rounded-circle"
+                            alt="Default profile picture" style="width: 30px; height: 30px; object-fit: cover;">
+                    {% endif %}
+                    &ensp;<h5 class="mb-0"><strong>{{ rating.user.get_full_name }}</strong></h5>
+                </div>
+                <p class="mb-1"><strong>Rating &ensp;</strong>
+                    {% rating_range 5 as full_range %}
+                    {% for i in full_range %}
+                        {% if i <= rating.rating %}
+                            <i class="fas fa-star text-warning"></i>
+                        {% else %}
+                            <i class="fas fa-star text-muted"></i>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                <p class="mb-0"><strong>Review &ensp;</strong> {{ rating.review }}</p>
+                <small class="text-muted">Rated on {{ rating.rating_date|date:"F j, Y" }}</small>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Pagination controls -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if ratings.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ ratings.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                {% endif %}
+
+                {% for page_num in ratings.paginator.page_range %}
+                    {% if ratings.number == page_num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if ratings.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ ratings.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    {% else %}
+        <p class="text-center">No ratings yet for this room.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 mt-5 mb-5">
+            <img src="{% if object.image %}{{ object.image.url }}{% else %}https://bootdey.com/img/Content/avatar/avatar7.png{% endif %}" alt="{{ object.hall_type }}" class="img-fluid rounded" style="width: 600px; height: 400px; object-fit: cover;">
+        </div>
+        <div class="col-md-6 mt-5 mb-4">
+            <div class="card shadow-lg rounded">
+                <div class="card-body">
+                    <h3 class="card-title font-weight-bold"><i class="bi bi-list-ol"></i>&ensp;{{ object.hall_number }} &emsp; {{ object.hall_type.name }}</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-tag"></i>&ensp;Price per hour</strong>
+                            <span>ETB {{ object.price_per_hour }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-door-open-fill"></i>&ensp;Status</strong>
+                            <span>{{ object.get_status_display }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-person-fill"></i>&ensp;Capacity</strong>
+                            <span>{{ object.capacity }} person</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-building-up"></i>&ensp;Floor</strong>
+                            <span>{{ object.floor }}</span>
+                        </li>
+                    </ul>
+                    {% if object.description %}
+                    <div class="mt-4">
+                        <h5 class="card-title font-weight-bold"><i class="bi bi-card-text"></i>&ensp;Description</h5>
+                        <p class="card-text small">{{ object.description }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="mt-3 d-flex justify-content-center">
+                        <a href="{% url 'admins:hall_update' hall.pk %}" class="btn btn-sm btn-warning rounded">Edit</a>&ensp;
+                        <a href="{% url 'admins:hall_list' %}" class="btn btn-sm btn-secondary rounded">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

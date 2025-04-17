@@ -1,0 +1,153 @@
+{% extends 'accountss/base.html' %}
+{% load static %}
+ 
+
+{% block content %}
+<style>
+  .masthead {
+    background-image: url("{% static '/images/hotel.avif' %}"); /* Adjust the path to your image */
+    }
+</style>
+  
+  <!-- Header -->
+
+  <div class="overlay1"></div>
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12 text-center">
+          <h2 class="font-weight-bold text-light">About Us</h2>
+          <p class=" text-light font-weight-bold " >A fairy tale where your wishes come true</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- End of Header -->
+
+  <!-- History -->
+
+  <div class="container">
+    <div class="row py-5">
+
+      <div class="col-md-4 d-block-sm pb-4">
+        <h2 class="font-weight-bold">Our History</h2>
+        <p class="text-justify">Discover the rich history of ADAR Hotel, nestled in the heart of Addis Ababa, Ethiopia. Established in 2008, our hotel has been a beacon of hospitality, offering unparalleled service and luxurious accommodations. With a commitment to excellence and a dedication to providing guests with unforgettable experiences, ADAR Hotel invites you to immerse yourself in the vibrant culture and warmth of Ethiopia's capital city.</p>
+       
+      </div>
+
+      <div class="col-md-8 d-block-sm">
+        <img class="w-100 rounded" src="{% static 'images/dinning-room.jpg' %}" alt="Hotel outdoor at night">
+      </div>
+
+    </div> <!-- row -->
+  </div> <!-- container -->
+
+  <!-- End of History -->
+
+  <!-- Team -->
+
+  <div class="container py-5">
+    <div class="row py-5">
+
+      <div class="col-md-7 d-block-sm">
+        <img class="img-fluid rounded" src="{% static 'images/designers.jpeg' %}" alt="Management team">
+      </div>
+
+      <div class="col-md-5 card shadow-lg h-50 pb-5">
+        <h2 class="pb-3 font-weight-bold">Our Team</h2>
+        <p class="font-weight-bold">Robel Fekede, Managing Director</p>
+        <p class="font-weight-bold">Abebe Chaso, Director of Human Resources</p>
+        <p class="font-weight-bold">Daniel Rebu, Financial Controller</p>
+        <p class="font-weight-bold">Helen Malo, Director of Food & Beverage</p>
+        <p class="font-weight-bold">Kennedy Ayalew, Director of Sales & Marketing</p>
+      </div>
+
+    </div> <!-- row -->
+  </div> <!-- container -->
+
+  <!-- End of Team -->
+
+  <!-- Testimonials -->
+
+<div class="container py-5">
+  <section class="team-section text-center my-5">
+
+    <!-- Section heading -->
+    <h3 class="h1-responsive font-weight-bold my-5">Testimonials</h3>
+
+    <!-- Section description -->
+    <p class="dark-grey-text w-responsive mx-auto mb-5">Our guests love their stay with us. Hear what they have to say!</p>
+
+    <!-- Grid row -->
+    <div class="row text-center">
+
+      <!-- Grid column -->
+      <div class="col-md-4 mb-md-0 mb-5">
+
+        <div class="testimonial">
+
+          <!-- Avatar -->
+          <div class="avatar mx-auto">
+            <img src="{% static 'images/Designer (3).jpeg' %}" class="rounded-circle z-depth-1 img-fluid">
+          </div>
+
+          <!-- Content -->
+          <h4 class="font-weight-bold dark-grey-text mt-4">Hana Mekonen</h4>
+          <h5 class="font-weight-bold blue-text my-3">Marketing Manager</h5>
+          <p class="font-weight-normal dark-grey-text">
+            <i class="bi bi-quote"></i> The hospitality and services provided by the hotel were outstanding. I had an amazing stay!</p>
+
+        </div> <!-- testimonial -->
+
+      </div> <!-- grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 mb-md-0 mb-5">
+
+        <div class="testimonial">
+
+          <!-- Avatar -->
+          <div class="avatar mx-auto">
+            <img src="{% static 'images/Designer (1).jpeg' %}" class="rounded-circle z-depth-1 img-fluid">
+          </div>
+
+          <!-- Content -->
+          <h4 class="font-weight-bold dark-grey-text mt-4">Abebe Kassa</h4>
+          <h5 class="font-weight-bold blue-text my-3">Business Consultant</h5>
+          <p class="font-weight-normal dark-grey-text">
+            <i class="bi bi-quote"></i> I enjoyed my stay at the hotel. The facilities are excellent, and the staff is very friendly.</p>
+
+        </div> <!-- testimonial -->
+
+      </div> <!-- grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4">
+
+        <div class="testimonial">
+
+          <!-- Avatar -->
+          <div class="avatar mx-auto">
+            <img src="{% static 'images/Designer (2).jpeg' %}" class="rounded-circle z-depth-1 img-fluid">
+          </div>
+
+          <!-- Content -->
+          <h4 class="font-weight-bold dark-grey-text mt-4">Selam Tesfaye</h4>
+          <h5 class="font-weight-bold blue-text my-3">Photographer</h5>
+          <p class="font-weight-normal dark-grey-text">
+            <i class="bi bi-quote"></i> The ambiance and the views from the hotel are simply breathtaking. I would definitely recommend it to others.</p>
+
+        </div> <!-- testimonial -->
+
+      </div> <!-- grid column -->
+
+    </div> <!-- row -->
+
+  </section> <!-- team-section -->
+</div> <!-- container -->
+
+<!-- End of Testimonials -->
+
+  
+  {% endblock content %}

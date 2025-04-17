@@ -1,0 +1,41 @@
+{% extends 'admins/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card shadow-sm rounded w-75 mt-3 d-flex justify-content-center mx-auto">
+    <h5 class="text-center text-danger mt-3">Chat with {{ user.username }}</h5>
+</div>
+<div class="container mt-4 mb-4 w-75 mx-auto card shadow-sm">
+    <div class="chat-detail-box p-3" id="chat-box">
+        {% for message in messages %}
+            {% if message.user.role == "customer" %}
+                <div class="customer-message bg-warning p-3 mb-3 w-50 rounded" style="float: left; clear: both;">
+                    <p class="timestamp"><strong>{{ message.timestamp }}</strong></p>
+                    <p class="message-content">{{ message.message }}</p>
+                </div>
+            {% else %}
+                <div class="staff-message p-3 mb-3 w-50 rounded" style="float: right; clear: both;">
+                    <p class="timestamp"><strong>{{ message.timestamp }}</strong></p>
+                    <p class="message-content">{{ message.message }}</p>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No messages to display.</p>
+        {% endfor %}
+    </div>
+
+    <form method="post" action="{% url 'admins:send_message' user.id %}" class="message-form mt-3" id="message-form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <textarea name="message" rows="4" class="form-control" placeholder="Type your message..."></textarea>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning w-50 mx-auto mb-4" id="send-button">
+                <span class="spinner-border spinner-border-sm d-none" id="spinner" role="status" aria-hidden="true"></span>
+                Send
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

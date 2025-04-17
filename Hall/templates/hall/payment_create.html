@@ -1,0 +1,160 @@
+{% extends "accountss/base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="container" style="margin-top: 7rem;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }}">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container mb-5">
+    <h3 class="text-center mb-3 font-weight-bold" style="margin-top: 1rem;">Hall Booking Payment</h3>
+    <div class="row justify-content-center">
+        <!-- User Details Column -->
+        <div class="col-md-6 mt-3">
+            <div class="card h-100 shadow-sm rounded">
+                <div class="card-body">
+                    <h5 class="card-title mb-4 font-weight-bold"><i class="bi bi-file-earmark-person-fill"></i>&ensp;User Details</h5>
+                    <div class="row mb-2">
+                        <div class="col-4"><i class="bi bi-person"></i>&ensp;<strong>First Name</strong></div>
+                        <div class="col-8">{{ booking.user.first_name }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><i class="bi bi-person"></i>&ensp;<strong>Last Name</strong></div>
+                        <div class="col-8">{{ booking.user.last_name }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><i class="bi bi-envelope-fill"></i>&ensp;<strong>Email</strong></div>
+                        <div class="col-8">{{ booking.user.email }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Booking Details Column -->
+        <div class="col-md-6 mt-3">
+            <div class="card h-100 shadow-sm rounded">
+                <div class="card-body">
+                    <h5 class="card-title mb-4 font-weight-bold"><i class="bi bi-box-arrow-down"></i>&ensp;Hall Booking Details</h5>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-list-ol"></i>&ensp;<strong>Hall Name</strong></div>
+                        <div class="col-6">{{ booking.hall.hall_type }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-calendar-plus-fill"></i>&ensp;<strong>Start Date</strong></div>
+                        <div class="col-6">{{ booking.start_date }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-calendar-plus-fill"></i>&ensp;<strong>End Date</strong></div>
+                        <div class="col-6">{{ booking.end_date }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-clock-fill"></i>&ensp;<strong>Start Time</strong></div>
+                        <div class="col-6">{{ booking.start_time }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-clock-fill"></i>&ensp;<strong>End Time</strong></div>
+                        <div class="col-6">{{ booking.end_time }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><i class="bi bi-cash"></i>&ensp;<strong>Amount Due</strong></div>
+                        <div class="col-6">{{ booking.amount_due }} ETB</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Form -->
+<form id="paymentForm" method="post" enctype="multipart/form-data" class="mt-5">
+    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4 rounded shadow-sm">
+                <h5 class="mb-4 text-center font-weight-bold">Payment Method</h5>
+                <div class="d-flex flex-column align-items-center gap-3">
+                    <label class="payment-option d-flex align-items-center w-75 justify-content-center rounded">
+                        <input id="chapaRadio" type="radio" name="payment_method" value="chapa" hidden>
+                        <span class="custom-radio"></span>
+                        <img src="{% static 'images/chapa-logo.png' %}" alt="Chapa" style="height: 30px; margin-left: 10px;">
+                        <span class="ml-3">Chapa</span>
+                    </label>
+                    <label class="payment-option d-flex align-items-center w-75 justify-content-center rounded">
+                        <input id="paypalRadio" type="radio" name="payment_method" value="paypal" hidden checked>
+                        <span class="custom-radio"></span>
+                        <img src="{% static 'images/paypal-logo.png' %}" alt="PayPal" style="height: 30px; margin-left: 10px;">
+                        <span class="ml-3">PayPal</span>
+                    </label>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center mt-4">
+                <button id="proceedToPayment" class="btn btn-sm btn-success w-75 rounded" type="submit">Proceed to Payment</button>
+                <button id="myBookingButton" class="btn btn-sm btn-primary w-75 rounded mt-2" type="button" style="display: none;" onclick="window.location.href='{% url 'hall_bookings' %}'">My Bookings</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const options = document.querySelectorAll('.payment-option');
+        const proceedToPaymentButton = document.getElementById('proceedToPayment');
+        const myBookingButton = document.getElementById('myBookingButton');
+        
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                options.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input').checked = true;
+            });
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', function(event) {
+            var chapaRadio = document.getElementById('chapaRadio');
+            if (chapaRadio.checked) {
+                this.target = '_blank';
+            } else {
+                this.target = '_self';
+            }
+
+            proceedToPaymentButton.disabled = true;
+            proceedToPaymentButton.classList.add('disabled');
+            myBookingButton.style.display = 'block';
+        });
+    });
+</script>
+
+<style>
+    .payment-option {
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #ddd;
+        transition: background-color 0.3s;
+    }
+    .payment-option.selected {
+        background-color: #f8f9fa;
+        border-color: #007bff;
+    }
+    .custom-radio {
+        display: none;
+    }
+    .payment-option.selected .custom-radio {
+        background-color: #007bff;
+    }
+    .disabled {
+        pointer-events: none;
+        opacity: 0.65;
+    }
+</style>
+
+{% endblock content %}

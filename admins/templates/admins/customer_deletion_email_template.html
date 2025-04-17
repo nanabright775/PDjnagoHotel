@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deletion Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #fa0707;
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .footer {
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Account Deletion Confirmation</h1>
+        </div>
+        <div class="content">
+            <p>Dear {{ full_name }},</p>
+            <p>Your account has been successfully deleted from our system. We are sorry to see you go!</p>
+            <p>If you believe this was a mistake or need further assistance, please contact us at <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+        </div>
+        <div class="footer">
+            <p>Thank you for using ADAR Hotel Management System. We hope to see you again soon!</p>
+        </div>
+    </div>
+</body>
+</html>

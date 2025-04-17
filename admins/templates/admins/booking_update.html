@@ -1,0 +1,64 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="container mt-4 mb-4">
+    <div class="card shadow-sm mx-auto" style="max-width: 100%;">
+        <h5 class="card-title text-center mb-3 font-weight-bold"><strong>Booking Update</strong></h5>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" class="d-flex flex-column">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+                {% for field in form %}
+                    {% if field.name == 'id_image' %}
+                        {% if not form.instance.id_image %}
+                            <div class="mb-3">
+                                <label class="form-label font-weight-bold" for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                                {{ field|add_class:"form-control rounded" }}
+                                {% if field.errors %}
+                                    <div class="alert alert-danger mt-2">
+                                        {% for error in field.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold" for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                            {% if field.field.widget.input_type == 'checkbox' %}
+                                {{ field|add_class:"form-check-input" }}
+                            {% elif field.field.widget.input_type == 'select' %}
+                                {{ field|add_class:"form-select" }}
+                            {% else %}
+                                {{ field|add_class:"form-control rounded" }}
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {% for error in field.errors %}
+                                        {{ error }}<br>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="d-flex flex-column flex-md-row justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary rounded mb-2 mb-md-0 w-100 w-md-auto">Save</button>
+                    <a href="{% url 'admins:booking_list' %}" class="btn btn-secondary rounded w-100 w-md-auto ms-md-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

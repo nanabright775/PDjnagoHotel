@@ -1,0 +1,54 @@
+.payment-option {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 18px; /* Ensure rounded corners */
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+
+
+.payment-option.selected {
+    border-color: #0309ab;
+    background-color: #f0f8ff;
+    border-radius: 18px; /* Ensure rounded corners for selected option */
+    border-style: solid;
+    border-width: 2px;
+}
+
+.custom-radio {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%; /* Ensure round radio button */
+    border: 2px solid #ffffff;
+    margin-right: 10px;
+    position: relative;
+}
+
+
+.custom-radio::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: #fcfcfc;
+    border-radius: 50%; /* Ensure round radio button */
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.payment-option.selected .custom-radio::before {
+    opacity: 1;
+}
+
+.payment-option input {
+    display: none;
+}
+
+.gap-3 {
+    gap: 19px;
+}

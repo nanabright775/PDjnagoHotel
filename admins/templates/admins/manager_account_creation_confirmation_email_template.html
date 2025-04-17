@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Manager Account Creation Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #f3ef08;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            color: #333333;
+        }
+        .content p {
+            margin: 0 0 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+            color: #777777;
+            border-top: 1px solid #dddddd;
+            margin-top: 20px;
+        }
+        .centered-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ADAR Hotel Manager Account Creation Confirmation</h1>
+        </div>
+        <div class="content">
+            <h3>Dear {{ manager.first_name }},</h3>
+            <p>Your manager account for ADAR Hotel has been successfully created.</p>
+            <p>Please find your login credentials below:</p>
+            <p><strong>Username:</strong> {{ manager.username }}</p>
+            <p><strong>Password:</strong> {{ password }}</p>
+            <p>We recommend that you log in and change your password immediately for security purposes.</p>
+            <div class="centered-button">
+                <a href="{{ login_url }}" class="button">Log in to Your Account</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p>For any assistance, please contact us at <a href="mailto:adarhotel33@gmail.com">adarhotel33@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>

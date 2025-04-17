@@ -1,0 +1,145 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }} rounded">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="container-fluid mt-5">
+    <!-- Search Form -->
+    <form method="get" action="" class="mb-4 d-flex flex-wrap justify-content-between">
+        <div class="input-group mb-3 w-100 w-md-75">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search by first name" value="{{ request.GET.search }}">
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-warning pb-3" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap w-100 w-md-25 justify-content-center justify-content-md-end">
+            <a href="{% url 'admins:customer_list' %}" class="btn btn-sm btn-success">Show All</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Last Login</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if customers %}
+                {% for customer in customers %}
+                <tr>
+                    <td class="align-middle">{{ customer.id }}</td>
+                    <td class="align-middle">{{ customer.username }}</td>
+                    <td class="align-middle">{{ customer.first_name }}</td>
+                    <td class="align-middle">{{ customer.last_name }}</td>
+                    <td class="align-middle">{{ customer.email }}</td>
+                    <td class="align-middle">{{ customer.last_login }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'admins:customer_detail' customer.pk %}" class="btn btn-link text-warning">
+                            <span class="material-symbols-outlined">info</span>
+                        </a>
+                        <!-- Delete button with modal trigger -->
+                        
+                                                <button type="button" class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ customer.id }}">
+                            <span class="material-symbols-outlined">delete_forever</span>
+                        </button>
+                        
+
+                        <!-- Confirm Delete Modal -->
+                        <div class="modal fade" id="confirmDeleteModal{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel{{ customer.id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmDeleteLabel{{ customer.id }}">Confirm Deletion</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this customer account?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form action="{% url 'admins:customer_delete' customer.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-danger">No Customer Accounts available</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link bg-warning text-dark">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:-5 and num < page_obj.number|add:5 %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

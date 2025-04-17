@@ -1,0 +1,44 @@
+{% extends 'admins/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+    <div class="card shadow-lg mx-auto" style="max-width: 100%;">
+        <h5 class="card-title text-center mb-3 mt-3"><strong>Edit Spa Booking Status</strong></h5>
+        <div class="card-body">
+            <form method="post" class="d-flex flex-column">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold" for="{{ field.id_for_label }}"><strong>{{ field.label }}</strong></label>
+                        {% if field.field.widget.input_type == 'checkbox' %}
+                            {{ field|add_class:"form-check-input" }}
+                        {% elif field.field.widget.input_type == 'select' %}
+                            {{ field|add_class:"form-select" }}
+                        {% else %}
+                            {{ field|add_class:"form-control rounded" }}
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="alert alert-danger mt-2">
+                                {{ field.errors|first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="d-flex flex-column flex-md-row justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary rounded mb-2 mb-md-0  w-md-auto">Save</button>
+                    <a href="{% url 'admins:spa_booking_list' %}" class="btn btn-secondary rounded  w-md-auto ms-md-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

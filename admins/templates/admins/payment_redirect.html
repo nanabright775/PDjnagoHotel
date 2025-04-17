@@ -1,0 +1,9 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-center mt-5">
+    <div class="alert alert-success w-50" role="alert">
+        Booking and Payment completed successfully.
+        <a href="{{ pdf_url }}" class="alert-link" download>Click here to download the receipt</a>.
+    </div>
+</div>
+{% endblock %}

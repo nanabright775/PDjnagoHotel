@@ -1,0 +1,93 @@
+/* Webkit browsers */
+html, body {
+    scrollbar-width: thin; /* Firefox: Thin scrollbar */
+    scrollbar-color: #506132 #f1f1f1; /* Firefox: Color of the thumb and track */
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+    border-radius: 10px; /* Rounded corners of the track */
+}
+
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
+    background: #55e706; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners of the thumb */
+    border: 3px solid #f1f1f1; /* Padding effect */
+}
+
+html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar thumb when hovered */
+}
+
+
+.chat-box {
+    max-height: 500px;
+    overflow-y: auto; /* Changed to auto to always show scrollbar */
+    /* Custom scrollbar styles */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #333030 #ffffff;
+    border-radius: 2px;
+    
+}
+
+/* Custom scrollbar styles for WebKit browsers (Chrome, Safari, etc.) */
+.chat-box::-webkit-scrollbar {
+    width: 9px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #6c757d;
+    border-radius: 20px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background-color: #f8f9fa;
+}
+
+        
+        .user-message {
+            background-color: darkslategrey;
+            color: #fff;
+            border-radius: 15px;
+            padding: 5px 10px;
+            width: 25%;
+            margin-bottom: 10px;
+
+        }
+        .bot-response {
+            background-color: wheat;
+            color: #403d3d;
+            border-radius: 15px;
+            padding:10px;
+            margin-right: 10px;
+            width: 50%;
+            margin-bottom: none;
+            margin-left: auto;
+            
+        }
+
+
+        #copy_button{
+            float: right;
+            margin: 3px;
+        }
+.copy-button {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .copy-button:focus, .copy-button:active {
+        outline: none;
+        box-shadow: none;
+    }
+    .form-control {
+        border-radius: 10px; /* Makes the border pill-shaped */
+        padding: 10px 20px; /* Adds padding to the text */
+        resize: none;
+        /* width:%;  */
+    }
+        

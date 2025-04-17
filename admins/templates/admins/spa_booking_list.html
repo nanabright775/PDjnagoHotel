@@ -1,0 +1,142 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }} rounded">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<h4 class="text-center mt-4 mb-4"><strong>Spa Bookings List</strong></h4>
+
+<div class="container-fluid mt-5">
+    <!-- Search Form -->
+    <form method="get" action="" class="mb-4 d-flex flex-wrap justify-content-between">
+        <div class="input-group mb-3 w-100 w-md-50">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search by user, service, package, or transaction ID" value="{{ request.GET.search }}">
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-warning pb-3" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap w-100 w-md-50 justify-content-center justify-content-md-end">
+            <a href="{% url 'admins:spa_booking_create' %}" class="btn btn-primary btn-sm mb-2 mb-md-0">Create Spa Booking</a>&ensp;
+            <a href="{% url 'admins:spa_booking_list' %}" class="btn btn-sm btn-success ms-md-2">Show All</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Service/Package</th>
+                    <th scope="col">Appointment Date</th>
+                    <th scope="col">Appointment Time</th>
+                    <th scope="col">Amount Due</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">For</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if object_list %}
+                {% for item in object_list %}
+                <tr>
+                    <td class="align-middle">{% if item.user.username %}{{ item.user.username }}{% else %}{{item.for_first_name}}{% endif %}</td>
+                    <td class="align-middle">
+                        {% if item.service %}
+                            {{ item.service.name }}
+                        {% else %}
+                            {{ item.package.name }}
+                        {% endif %}
+                    </td>
+                    <td class="align-middle">{{ item.appointment_date }}</td>
+                    <td class="align-middle">{{ item.appointment_time }}</td>
+                    <td class="align-middle">{{ item.amount_due }}</td>
+                    <td class="align-middle">{{ item.get_status_display }}</td>
+                    <td class="align-middle">
+                        {% if item.for_first_name %}
+                            {{ item.for_first_name }}
+                        {% else %}
+                            Self
+                        {% endif %}
+                    </td>
+                    <td class="">
+                        <div class="btn-group" role="group">
+                            
+                            
+                            <a href="{% url 'admins:spa_booking_detail' item.id %}" class="btn btn-link text-warning">
+                                <span class="material-symbols-outlined">info</span>
+                            </a>
+                            {% if item.status != 'cancelled' %}
+                            <a href="{% url 'admins:spa_booking_update' item.id %}" class="btn btn-link text-primary">
+                                <span class="material-symbols-outlined">edit_note</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center text-danger">No bookings available</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link bg-warning text-dark">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:-5 and num < page_obj.number|add:5 %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

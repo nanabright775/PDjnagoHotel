@@ -1,0 +1,164 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-dismissible text-center mt-5 alert-{{ message.tags }} rounded">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+<h4 class="text-center mt-4 mb-4"><strong>Spa Payment List</strong></h4>
+
+<div class="container-fluid mt-5">
+    <!-- Search Form -->
+    <form method="get" action="" class="mb-4 d-flex flex-wrap justify-content-between">
+        <div class="input-group mb-3 w-100 w-md-75">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search by user or amount" value="{{ request.GET.search }}">
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-warning pb-3" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap w-100 w-md-25 justify-content-center justify-content-md-end">
+            <a href="{% url 'admins:spa_payment_list' %}" class="btn btn-sm btn-success">Show All</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Booking</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Service/Package</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Transaction Id</th>
+                    <th scope="col">Payment Method</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if object_list %}
+                {% for item in object_list %}
+                <tr>
+                    <td class="align-middle"><a href="{% url 'admins:spa_booking_detail' item.spa_booking.pk %}" class="text-decoration-none text-primary">{{ item.spa_booking }}</a></td>
+                    <td class="align-middle">{% if item.spa_booking.user.username %}{{ item.spa_booking.user.username }}{% else %}{{item.spa_booking.for_first_name}}{% endif %}</td>
+                    <td class="align-middle">{% if item.spa_booking.service %}{{ item.spa_booking.service.name }}{% else %} {{ item.spa_booking.package.name }} {% endif %}</td>
+                    <td class="align-middle">ETB {{ item.amount }}</td>
+                    <td class="align-middle">{{ item.payment_date }}</td>
+                    <td class="align-middle">{{ item.transaction_id }}</td>
+                    <td class="align-middle">{{ item.get_payment_method_display }}</td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'admins:spa_payment_detail' item.id %}" class="btn btn-link text-warning">
+                                <span class="material-symbols-outlined">info</span>
+                            </a>
+                            {% if item.receipt_pdf %}
+                            <a href="{% url 'admins:spa_payment_download_receipt' item.id %}" class="btn btn-link text-primary">
+                                <span class="material-symbols-outlined">download</span>
+                            </a>
+                            {% endif %}
+                            {% if user.role == 'owner' %}
+                            <button type="button" class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="{{ item.id }}">
+                                <span class="material-symbols-outlined">delete_forever</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this spa payment?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form id="deleteForm" method="post" action="">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center text-danger">No data available</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;&laquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link bg-warning text-dark">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:-5 and num < page_obj.number|add:5 %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">&raquo;&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+    confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var paymentId = button.getAttribute('data-id');
+        var deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = '{% url "admins:spa_payment_delete" 0 %}'.replace('0', paymentId);
+    });
+});
+</script>
+{% endblock content %}

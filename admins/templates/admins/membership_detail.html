@@ -1,0 +1,60 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card shadow-lg rounded">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 text-center">
+                        <strong>{% if object.user.username %}{{ object.user.username }}{% else %}{{ object.for_first_name }}{% endif %}'s Membership</strong>
+                    </h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Membership Plan</strong>
+                            <span>{{ object.plan.name }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Start Date</strong>
+                            <span>{{ object.start_date }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>End Date</strong>
+                            <span>{{ object.end_date }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Status</strong>
+                            <span>{{ object.get_status_display }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>For First Name</strong>
+                            <span>{{ object.for_first_name }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>For Last Name</strong>
+                            <span>{{ object.for_last_name }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>For Phone Number</strong>
+                            <span>{{ object.for_phone_number }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>For Email</strong>
+                            <span>{{ object.for_email }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Created At</strong>
+                            <span>{{ object.created_at }}</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 d-flex justify-content-center">
+                        <a href="{% url 'admins:membership_list' %}" class="btn btn-secondary rounded">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

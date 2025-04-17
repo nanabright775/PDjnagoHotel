@@ -1,0 +1,165 @@
+{% extends 'accountss/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+html, body {
+  background-color: white !important;
+}
+
+.restaurant-masthead {
+  background-image: url("{% static '/images/restaurant.jpg' %}");
+  background-size: cover;
+  background-position: center;
+  height: 600px;
+  position: relative;
+}
+
+.overlay1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.menu-section h3 {
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.menu-section p {
+  margin-bottom: 5px;
+}
+
+.restaurant-details {
+  padding-top: 30px;
+}
+
+.card-custom {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+}
+
+.card-body-custom {
+  padding: 20px;
+}
+</style>
+
+<!-- Header -->
+<div class="overlay1"></div>
+<header class="restaurant-masthead mb-5">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h2 class="font-weight-bold text-light">Our Restaurant</h2>
+        <p class="font-weight-bold text-light">Experience the finest cuisine in a serene and luxurious setting at ADAR Restaurant.</p>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- End of Header -->
+
+<!-- Main -->
+<div class="container">
+  <!-- Image Gallery -->
+  <section class="gallery">
+    <div class="row">
+      <div class="col-md-4">
+        <img src="{% static '/images/dish1.jpg' %}" class="rounded" alt="Dish 1">
+      </div>
+      <div class="col-md-4">
+        <img src="{% static '/images/dish2.jpg' %}" class="rounded" alt="Dish 2">
+      </div>
+      <div class="col-md-4">
+        <img src="{% static '/images/dish3.jpg' %}" class="rounded" alt="Dish 3">
+      </div>
+    </div>
+  </section>
+  <!-- End of Image Gallery -->
+
+  <!-- Menu Section -->
+  <section class="menu-section">
+    <h3>Our Menu</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Appetizers</h4>
+            <p><strong>Bruschetta</strong> - Fresh tomatoes on toasted bread. - ETB 100</p>
+            <p><strong>Caesar Salad</strong> - Crisp romaine with Caesar dressing. - ETB 120</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Main Courses</h4>
+            <p><strong>Grilled Salmon</strong> - Freshly grilled salmon with herbs. - ETB 250</p>
+            <p><strong>Steak Frites</strong> - Juicy steak with fries. - ETB 300</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Desserts</h4>
+            <p><strong>Tiramisu</strong> - Classic Italian dessert. - ETB 80</p>
+            <p><strong>Chocolate Lava Cake</strong> - Warm chocolate cake with a gooey center. - ETB 100</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-custom mb-4">
+          <div class="card-body card-body-custom">
+            <h4>Beverages</h4>
+            <p><strong>Wine</strong> - A variety of red and white wines. - ETB 150 per glass</p>
+            <p><strong>Coffee</strong> - Freshly brewed coffee. - ETB 50</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End of Menu Section -->
+
+  <!-- Restaurant Details -->
+  <section class="restaurant-details">
+    <div class="row">
+      <div class="col-md-8 py-5">
+        <div class="card card-custom">
+          <div class="card-body card-body-custom">
+            <h3>About Our Restaurant</h3>
+            <p>At ADAR Restaurant, we offer a fine dining experience with a range of local and international cuisines prepared by our world-class chefs. Whether you're enjoying a business lunch or a family dinner, we promise an unforgettable culinary journey.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-md-4 pt-md-5">
+        <div class="card card-custom">
+          <div class="card-body card-body-custom">
+            <h3 class="pb-2"><i class="bi bi-geo"></i> Our Location</h3>
+            <p><i class="bi bi-map"></i> Main Street, 123, Addis Ababa, AA, ETH</p>
+            <p><i class="bi bi-telephone-forward"></i> Phone: +251-11-222-1234</p>
+            <p><i class="bi bi-envelope"></i> Email: adarrestaurant@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End of Restaurant Details -->
+</div>
+<!-- End of Main -->
+
+{% endblock content %}

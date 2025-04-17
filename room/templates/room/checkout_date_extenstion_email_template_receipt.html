@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt</title>
+    <style>
+        body { font-family: Calibri,Arial, sans-serif; }
+        .header {
+            background-color: #f0e909;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            font-size: larger;
+            border-radius: 10px 10px 0 0;
+        }        
+        .details { margin-bottom: 20px;font-size: large; }
+        .footer { text-align: center; font-size: 12px; margin-top: 100px; }
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1> Room Booking Receipt</h1>
+    </div>
+    <div class="details">
+        <p><strong>Booking ID <br> </strong> {{ booking.id }}</p>
+        <p><strong>User <br> </strong> {% if booking.user%} {{ booking.user.get_full_name }}{% else %}{{ booking.full_name}}{% endif %}</p>
+        <p><strong>Room <br> </strong> {{ booking.room.room_type }} Suite</p>
+        <p><strong>Room Number <br> </strong> {{ booking.room.room_number }}</p>
+        <p><strong>Check-in Date  <br> </strong> {{ booking.check_in_date }}</p>
+        <p><strong>Extended Check-out Date <br> </strong> {{ booking.extended_check_out_date }}</p>
+        <p><strong>Total Amount <br> </strong> {{ booking.booking_extend_amount }}</p>
+        <p><strong>Status <br> </strong> {{ booking.status }}</p>
+    </div>
+    <div class="qr-code">
+        <img src="{{ qr_code_data }}" alt="QR Code">
+    </div>
+    <div class="footer">
+        <p>Thank you for choosing ADAR Hotel!</p>
+        <p>For any assistance, please contact us at adarhotel33@gmail.com</p>
+    </div>
+</body>
+</html>

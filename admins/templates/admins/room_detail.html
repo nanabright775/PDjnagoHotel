@@ -1,0 +1,52 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-6 mt-5 mb-5">
+            <img src="{% if object.room_image %}{{ object.room_image.url }}{% else %}https://bootdey.com/img/Content/avatar/avatar7.png{% endif %}" alt="{{ object.room_type }}" class="img-fluid rounded" style="width: 600px; height: 400px; object-fit: cover;">
+        </div>
+        <div class="col-md-6 mt-5 mb-4">
+            <div class="card shadow-lg rounded">
+                <div class="card-body">
+                    <h5 class="card-title  text-center mb-3 mt-3"><i class="bi bi-list-ol"></i>&ensp;<strong>{{ object.room_number }}</strong> &emsp; <strong>{{ object.room_type }} Suite</strong></h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-tag"></i>&ensp;Price per night</strong>
+                            <span>ETB {{ object.price_per_night }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-door-open-fill"></i>&ensp;Status</strong>
+                            <span>{{ object.get_room_status_display }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-person-fill"></i>&ensp;Capacity</strong>
+                            <span>{{ object.capacity }} person</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-building-up"></i>&ensp;Floor</strong>
+                            <span>{{ object.floor }}</span>
+                        </li>
+                        {% if object.discount %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong><i class="bi bi-percent"></i>&ensp;Discount</strong>
+                            <span>{{ object.discount }}</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% if object.description %}
+                    <div class="mt-4">
+                        <h5 class="card-title"><strong><i class="bi bi-card-text"></i>&ensp;Description</strong></h5>
+                        <p class="card-text small">{{ object.description }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="mt-3 d-flex justify-content-center">
+                        <a href="{% url 'admins:room_update' object.pk %}" class="btn btn-sm btn-warning rounded">Edit</a>&ensp;
+                        <a href="{% url 'admins:room_list' %}" class="btn btn-sm btn-secondary rounded">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

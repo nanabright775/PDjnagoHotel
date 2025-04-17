@@ -1,0 +1,38 @@
+{% extends "accountss/base.html" %}
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="row ">
+    <div class="col-md-6 mt-5 mb-5">
+      <img src="{{ room.room_image.url }}" alt="{{ room.room_type }}" class="img-fluid rounded">
+    </div>
+    <div class="col-md-6 mt-5 mb-4">
+      <div class="card  shadow-sm rounded">
+          <div class="card-body">
+              <h3 class="card-title font-weight-bold"><i class="bi bi-list-ol"></i>&ensp;{{ room.room_number }} &emsp; {{ room.room_type }} Suite</h3>
+              <p class="card-text small">{{ room.description }}</p>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <strong><i class="bi bi-tag"></i>&ensp;Price per night</strong>
+                      <span>Ghc {{ room.price_per_night }}</span>
+                  </li>
+                  
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <strong><i class="bi bi-person-fill"></i>&ensp;Capacity</strong>
+                      <span>{{ room.capacity }} person</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <strong><i class="bi bi-building-up"></i>&ensp;Floor</strong>
+                      <span>{{ room.floor }}</span>
+                  </li>
+              </ul>
+              <div class="mt-3 d-flex justify-content-center">
+                  <a href="{% url 'booking_create' room.id %}" class="btn rounded btn-success mt-4 w-50">Book Now</a>&ensp;
+                  <a href="{% url 'room_ratings' room.id %}" class="btn btn-info btn rounded  mt-4 w-50">View Ratings</a>
+                </div>
+          </div>
+      </div>
+  </div>
+  
+  </div>
+</div>
+{% endblock %}

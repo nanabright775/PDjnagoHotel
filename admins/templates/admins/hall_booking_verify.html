@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Booking Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header h1 {
+            font-size: 1.5rem;
+        }
+        .bg-white {
+            font-size: 0.9rem;
+        }
+        .footer p {
+            font-size: 0.8rem;
+        }
+        @media (min-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .bg-white {
+                font-size: 1rem;
+            }
+            .footer p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <div class="header p-3 bg-warning text-center rounded">
+            <h1 class="mb-0 text-dark">Hall Booking Verification</h1>
+        </div>
+        <div class="bg-white p-4 rounded shadow-sm mt-4">
+            <h3 class="mb-4">Booking Details</h3>
+            <div class="row mb-2">
+                <div class="col-6"><strong>Booking ID</strong></div>
+                <div class="col-6">{{ booking.id }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>User</strong></div>
+                <div class="col-6">{% if booking.user %} {{ booking.user.get_full_name }}{% else %}{{ booking.full_name }}{% endif %}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>Hall Name</strong></div>
+                <div class="col-6">{{ booking.hall.hall_type }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>Start Date</strong></div>
+                <div class="col-6">{{ booking.start_date }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>End Date</strong></div>
+                <div class="col-6">{{ booking.end_date }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>Start Time</strong></div>
+                <div class="col-6">{{ booking.start_time }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>End Time</strong></div>
+                <div class="col-6">{{ booking.end_time }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>Amount</strong></div>
+                <div class="col-6">{{ booking.amount_due }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6"><strong>Status</strong></div>
+                <div class="col-6">{{ booking.get_status_display }}</div>
+            </div>
+        </div>
+        <div class="footer text-center mt-3">
+            <p>&copy; 2025 OLIKS HOMES. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
