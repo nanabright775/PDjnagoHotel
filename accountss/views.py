@@ -91,63 +91,6 @@ class CustomLoginView(LoginView):
         return super().form_valid(form)
 
 
-
-        
-from .tokens import account_activation_token
-
-class RegisterView(CreateView):
-    form_class = CustomUserCreationForm
-    template_name = 'accountss/signup.html'
-    success_url = reverse_lazy('login')
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        if user.role == 'customer':  # Assuming 'customer' is the role name
-            user.is_active = False
-            user.save()
-            self.send_verification_email(user)
-            messages.success(self.request, 'Please verify your email address to complete the registration.')
-        else:
-            user.is_active = True
-            user.save()
-        return super().form_valid(form)
-
-    def send_verification_email(self, user):
-        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-        activate_url = f"{BASE_URL}{reverse_lazy('activate', kwargs={'uidb64': uidb64, 'token': account_activation_token.make_token(user)})}"
-        subject = 'Activate your account'
-        html_content = render_to_string('accountss/acc_active_email.html', {
-            'user': user,
-            'activate_url': activate_url,
-        })
-
-        email = EmailMultiAlternatives(
-            subject=subject,
-            body='Activation link',
-            from_email='adarhotel33@gmail.com',
-            to=[user.email],
-        )
-        email.attach_alternative(html_content, "text/html")
-        email.send()
-
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = Custom_user.objects.get(pk=uid)
-    except (DjangoUnicodeDecodeError, TypeError, ValueError, OverflowError, Custom_user.DoesNotExist) as e:
-        user = None
-        print(f"Error decoding UID: {e}")
-    
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        messages.success(request, 'Your account has been activated successfully.')
-        return redirect('login')
-    else:
-        return HttpResponse('Activation link is invalid!')
-
-
 def home(request):
     return render(request, 'room/home.html')
 
@@ -200,3 +143,5 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         form = super().get_form(form_class)
         form.user = self.request.user
         return form
+
+

@@ -29,7 +29,7 @@
 
 <div class="container-fluid">
     <div class="card m-3 p-2 bg-warning shadow-sm d-flex justify-content-center">
-        <h4 class="text-center"><strong>Room Stats</strong></h4>
+        <h4 class="text-center"><strong>Bookings Stats</strong></h4>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -41,7 +41,6 @@
             <div class="mt-3 card shadow-sm">
                 <div id="monthlyRevenueChart"></div>
             </div>
-            
         </div>
     </div>
     <div class="row">
@@ -50,104 +49,8 @@
                 <div id="revenueByRoomTypeChart"></div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-            </div>
-        </div>
     </div>
 </div>
-
-<div class="container-fluid">
-    <div class="card m-3 p-2 bg-warning shadow-sm d-flex justify-content-center">
-        <h4 class="text-center"><strong>Membership Stats</strong></h4>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="membershipPlanPopularityChart"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="revenueByMembershipPlanChart"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="membershipStatusDistributionChart"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="paymentMethodUsageChart"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="card m-3  p-2 bg-warning shadow-sm d-flex justify-content-center">
-        <h4 class="text-center"><strong>Hall Stats</strong></h4>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="hallCategoryPopularityChart"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="revenueByHallCategoryChart"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="hallBookingStatusDistributionChart"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="hallPaymentMethodUsageChart"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <!-- Existing content... -->
-    
-    <div class="card m-3 p-2 bg-warning shadow-sm d-flex justify-content-center">
-        <h4 class="text-center"><strong>Spa Stats</strong></h4>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="spaServicePopularityChart"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="revenueBySpaServiceChart"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="spaPackagePopularityChart"></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="mt-3 card shadow-sm">
-                <div id="revenueBySpaPackageChart"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="container-fluid">
     <div class="card m-3 bg-warning p-2 shadow-sm d-flex justify-content-center">
@@ -167,20 +70,20 @@
     </div>
 </div>
 
-
 <script>
     Highcharts.setOptions({
         colors: ['#FFD700', '#000000'],
         chart: {
             style: {
                 fontFamily: 'Montserrat',
-                fontWeight: 'bold'}
+                fontWeight: 'bold'
+            }
         },
         exporting: {
             enabled: true,
             buttons: {
                 contextButton: {
-                    menuItems: ['viewData','downloadXLS']
+                    menuItems: ['viewData', 'downloadXLS']
                 }
             }
         },
@@ -195,7 +98,7 @@
             type: 'bar'
         },
         title: {
-            text: 'Room Type Popularity'
+            text: 'Bookings'
         },
         xAxis: {
             type: 'category',
@@ -239,164 +142,41 @@
         }]
     });
 
-    // Membership Plan Popularity Chart
-    Highcharts.chart('membershipPlanPopularityChart', {
+    // Monthly Revenue Chart
+    Highcharts.chart('monthlyRevenueChart', {
         chart: {
-            type: 'bar'
+            type: 'line'
         },
         title: {
-            text: 'Membership Plan Popularity'
+            text: 'Monthly Revenue'
         },
         xAxis: {
             type: 'category',
+            categories: {{ monthly_revenue_categories|safe }},
             title: {
-                text: 'Membership Plan'
+                text: 'Month'
             }
         },
-        plotOptions: {
-            bar: {
-                borderRadius: 20
-            }
-        },
-        series: [{
-            name: 'Subscriptions',
-            data: {{ membership_plan_popularity_data|safe }}
-        }]
-    });
-
-    // Revenue by Membership Plan Chart
-    Highcharts.chart('revenueByMembershipPlanChart', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Revenue by Membership Plan'
-        },
-        xAxis: {
-            type: 'category',
+        yAxis: {
             title: {
-                text: 'Membership Plan'
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 20
+                text: 'Revenue'
+            },
+            labels: {
+                format: '${value}'
             }
         },
         series: [{
             name: 'Revenue',
-            data: {{ revenue_by_membership_plan_data|safe }}
-        }]
-    });
-
-    // Membership Status Distribution Chart
-    Highcharts.chart('membershipStatusDistributionChart', {
-        colors: ['#FF0000','#FFD700' ],
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Membership Status Distribution'
-        },
-        series: [{
-            name: 'Memberships',
-            data: {{ membership_status_distribution_data|safe }}
-        }]
-    });
-
-    // Payment Method Usage Chart
-    Highcharts.chart('paymentMethodUsageChart', {
-        colors: ['#008000','#FFD700', '#000000'],
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Payment Method Usage'
-        },
-        series: [{
-            name: 'Payments',
-            data: {{ payment_method_usage_data|safe }}
-        }]
-    });
-
-    // Hall Category Popularity Chart
-    Highcharts.chart('hallCategoryPopularityChart', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Hall Category Popularity'
-        },
-        xAxis: {
-            type: 'category',
-            title: {
-                text: 'Hall Category'
-            }
-        },
+            data: {{ monthly_revenue_values|safe }},
+            color: '#007bff'
+        }],
         plotOptions: {
-            bar: {
-                borderRadius: 30
+            line: {
+                marker: {
+                    enabled: true
+                }
             }
-        },
-        series: [{
-            name: 'Bookings',
-            data: {{ hall_category_popularity_data|safe }}
-        }]
-    });
-
-    // Revenue by Hall Category Chart
-    Highcharts.chart('revenueByHallCategoryChart', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Revenue by Hall Category'
-        },
-        xAxis: {
-            type: 'category',
-            title: {
-                text: 'Hall Category'
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 100
-            }
-        },
-        series: [{
-            name: 'Revenue',
-            data: {{ revenue_by_hall_category_data|safe }}
-        }]
-    });
-
-    // Hall Booking Status Distribution Chart
-    Highcharts.chart('hallBookingStatusDistributionChart', {
-        colors: ['#FF0000','#FFD700' ],
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Hall Booking Status Distribution'
-        },
-        series: [{
-            name: 'Bookings',
-            data: {{ hall_booking_status_distribution_data|safe }}
-        }]
-    });
-
-    // Hall Payment Method Usage Chart
-    Highcharts.chart('hallPaymentMethodUsageChart', {
-        colors: ['#FFD700', '#000000', '#008000'],
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Hall Payment Method Usage'
-        },
-        series: [{
-            name: 'Payments',
-            data: {{ hall_payment_method_usage_data|safe }}
-        }]
+        }
     });
 
     // User Roles Distribution Chart
@@ -424,47 +204,6 @@
         }]
     });
 
-    
-    
-     // Monthly Revenue Chart
-     Highcharts.chart('monthlyRevenueChart', {
-        chart: {
-            type: 'line'
-        },
-        title: {
-            text: 'Monthly Revenue'
-        },
-        xAxis: {
-            type: 'category',
-            title: {
-                text: 'Month'
-            },
-            categories: {{ monthly_revenue_categories|safe }}
-        },
-        yAxis: {
-            title: {
-                text: 'Revenue'
-            },
-            labels: {
-                format: '${value}'
-            }
-        },
-        series: [{
-            name: 'Revenue',
-            data: {{ monthly_revenue_values|safe }},
-            color: '#007bff',
-            fillOpacity: 0.2
-        }],
-        plotOptions: {
-            line: {
-                marker: {
-                    enabled: true
-                }
-            }
-        }
-    });
-
-
     // User Registration Trends Chart
     Highcharts.chart('userRegistrationTrendsChart', {
         chart: {
@@ -475,10 +214,10 @@
         },
         xAxis: {
             type: 'category',
+            categories: {{ user_registration_categories|safe }},
             title: {
                 text: 'Date'
-            },
-            categories: {{ user_registration_categories|safe }}
+            }
         },
         yAxis: {
             title: {
@@ -498,107 +237,5 @@
             }
         }
     });
-     // Spa Service Popularity Chart (Pie Chart)
-    Highcharts.chart('spaServicePopularityChart', {
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Spa Service Popularity'
-        },
-        series: [{
-            name: 'Bookings',
-            data: {{ spa_service_popularity_data|safe }},
-            size: '80%',
-            innerSize: '60%',
-            dataLabels: {
-                format: '{point.name}: {point.y}'
-            }
-        }]
-    });
-
-    // Revenue by Spa Service Chart (Bar Chart)
-    Highcharts.chart('revenueBySpaServiceChart', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Revenue by Spa Service'
-        },
-        xAxis: {
-            type: 'category',
-            title: {
-                text: 'Spa Service'
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 10
-            }
-        },
-        series: [{
-            name: 'Revenue',
-            data: {{ revenue_by_spa_service_data|safe }}
-        }]
-    });
-
-    // Spa Package Popularity Chart (Pie Chart)
-    Highcharts.chart('spaPackagePopularityChart', {
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Spa Package Popularity'
-        },
-        series: [{
-            name: 'Bookings',
-            data: {{ spa_package_popularity_data|safe }},
-            size: '80%',
-            innerSize: '60%',
-            dataLabels: {
-                format: '{point.name}: {point.y}'
-            }
-        }]
-    });
-
-    // Revenue by Spa Package Chart (Line Chart)
-    Highcharts.chart('revenueBySpaPackageChart', {
-        chart: {
-            type: 'line'
-        },
-        title: {
-            text: 'Revenue by Spa Package'
-        },
-        xAxis: {
-            type: 'category',
-            title: {
-                text: 'Spa Package'
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Revenue'
-            },
-            labels: {
-                format: '${value}'
-            }
-        },
-        series: [{
-            name: 'Revenue',
-            data: {{ revenue_by_spa_package_data|safe }},
-            color: '#007bff',
-            marker: {
-                enabled: true
-            }
-        }],
-        plotOptions: {
-            line: {
-                marker: {
-                    enabled: true
-                }
-            }
-        }
-    });
 </script>
-
 {% endblock %}

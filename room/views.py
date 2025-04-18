@@ -46,7 +46,7 @@ from datetime import timedelta, date
 from django.db import transaction
 from django.db.models import Q
 import json
-from gym.models import *
+# from gym.models import *
 import logging
 from config import BASE_URL
 from django.db.models.signals import post_save, post_delete
@@ -56,12 +56,12 @@ from django.http import HttpResponseNotFound
 from django.http import HttpResponseServerError
 from django.core.mail import EmailMultiAlternatives
 from premailer import transform
-from Hall.models import *
+# from Hall.models import *
 from xhtml2pdf import pisa
 from io import BytesIO
 import qrcode
 import base64
-from Spa.models import *
+# from Spa.models import *
 import os
 from dotenv import load_dotenv
 
@@ -601,7 +601,7 @@ class PayPalReturnView(View):
                 # Create the email message
                 email = EmailMultiAlternatives(
                     subject=subject,
-                    from_email='adarhotel33@gmail.com',
+                    from_email='olikshomes@gmail.com',
                     to=[booking.user.email]
                 )
                 # Attach the HTML content
@@ -768,7 +768,7 @@ class ChapaWebhookView(View):
         # Create the email message
         email = EmailMultiAlternatives(
             subject=subject,
-            from_email='adarhotel33@gmail.com',
+            from_email='olikshomes@gmail.com',
             to=[booking.user.email]
         )
         # Attach the HTML content
@@ -867,7 +867,7 @@ class ChapaWebhookView(View):
         # Create the email message
         email = EmailMultiAlternatives(
             subject='Hall Booking Confirmation',
-            from_email='adarhotel33@gmail.com',
+            from_email='olikshomes@gmail.com',
             to=[booking.user.email]
         )
         # Attach the HTML content
@@ -949,7 +949,7 @@ class ChapaWebhookView(View):
         # Create the email message
         email = EmailMultiAlternatives(
             subject='Gym Membership Confirmation',
-            from_email='adarhotel33@gmail.com',
+            from_email='olikshomes@gmail.com',
             to=[membership.user.email]
         )
         # Attach the HTML content
@@ -969,7 +969,7 @@ class ChapaWebhookView(View):
         if membership.for_email:
             for_email = EmailMultiAlternatives(
                 subject='Gym Membership Confirmation',
-                from_email='adarhotel33@gmail.com',
+                from_email='olikshomes@gmail.com',
                 to=[membership.for_email]
             )
             for_email.attach_alternative(html_content, "text/html")
@@ -1044,7 +1044,7 @@ class ChapaWebhookView(View):
         # Create the email message
         email = EmailMultiAlternatives(
             subject='Spa Booking Confirmation',
-            from_email='adarhotel33@gmail.com',
+            from_email='olikshomes@gmail.com',
             to=[spa_booking.user.email]
         )
         # Attach the HTML content
@@ -1058,7 +1058,7 @@ class ChapaWebhookView(View):
         if spa_booking.for_email not in [None, '']:
             for_email = EmailMultiAlternatives(
                 subject='Spa Booking Confirmation',
-                from_email='adarhotel33@gmail.com',
+                from_email='olikshomes@gmail.com',
                 to=[spa_booking.for_email]
             )
             for_email.attach_alternative(html_content, "text/html")
@@ -1123,7 +1123,7 @@ class BookingCancelView(LoginRequiredMixin, View):
             # Create the email message with only HTML content
             email = EmailMultiAlternatives(
                 subject='Booking Cancellation Confirmation',
-                from_email='adarhotel33@gmail.com',
+                from_email='olikshomes@gmail.com',
                 to=[booking.user.email]
             )
             # Attach the HTML content

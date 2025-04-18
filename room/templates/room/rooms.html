@@ -59,7 +59,7 @@
         {% for room in rooms %}
         <div class="col-md-6 mb-4">
             <div class="card h-100 shadow-sm rounded">
-                <img src="{{ room.room_image.url }}" alt="{{ room.room_type.name }}" class="card-img-top rounded lazyload">
+                <img src="{{ room.room_image.url }}" alt="{{ room.room_type.name }}" class="card-img-top rounded lazyload" style="height: 250px; object-fit: cover;">
                 <div class="card-body">
                     <h3 class="card-title"><strong>{{ room.room_type.name }} Suite</strong></h3>
                     <p class="card-text">{{ room.description|truncatewords:20 }}</p>

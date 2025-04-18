@@ -129,18 +129,18 @@ body {
         <div class="navbar-nav mx-auto pt-1 text-center">
           <a class="nav-item nav-link text-warning" href="{% url 'about' %}">About</a>
   
-          <div class="dropdown ml-3">
+          <!-- <div class="dropdown ml-3">
             <a style="outline: none;" class="btn pt-2 text-warning dropdown-toggle-no-caret nav-link"
               id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">Room</a>
             <div class="dropdown-menu transparent-dropdown" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item nav-link text-warning" href="{% url 'rooms' %}">View Rooms</a>
             </div>
-          </div>
+          </div> -->
   
-          <a class="nav-item nav-link text-warning" href="{% url 'restaurant' %}">Restaurant</a>
+          <a class="nav-item nav-link text-warning" href="{% url 'restaurant' %}">Services</a>
           <a class="nav-item nav-link text-warning" href="{% url 'agreement' %}">Agreement</a>
           <a class="nav-item nav-link text-warning" href="{% url 'contact' %}">Contact</a>
-          <a class="dropdown-item nav-link text-warning" href="{% url 'rooms' %}">Book Room</a>
+          <a class="dropdown-item nav-link text-warning" href="{% url 'booking_create' 2 %}">Bookings</a>
         </div>
       </div>
     </div>

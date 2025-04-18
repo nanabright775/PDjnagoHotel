@@ -9,21 +9,12 @@ urlpatterns = [
     path('admin/', admin.site.urls,name='admin'),
     path('account/', include('accountss.urls')),
     path('admins/', include('admins.urls')),
-    path('social/', include('social_media.urls') ),
     path('', home, name='home'),
     path('room/', include('room.urls')),
     path('restaurant/', restaurant, name='restaurant'),
     path('agreement/', agreement, name='agreement'),
     path('about', about, name='about'),
-    path('contact', contact, name='contact'),
-    path('accounts/', include('allauth.urls')),
-    path('social/', include('social_django.urls', namespace='social')),
-    path('gym/', include('gym.urls')),
-    path('', include('paypal.standard.ipn.urls')),
-    path('hall/', include('Hall.urls')),
-    path('spa/', include('Spa.urls')),
-    
-    
+    path('contact', contact, name='contact'),    
 ]
 
 

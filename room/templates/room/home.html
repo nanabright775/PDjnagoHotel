@@ -28,7 +28,8 @@
         <img src="{% static 'images/beach.jpg' %}" class="img-fluid" alt="First slide">
         <div class="carousel-caption">
           <h2>Welcome to OLIKS HOMES</h2>
-          <p class="pt-3">Where Ghanaian tradition meets modern luxury. Experience unparalleled hospitality in the heart of Addis Ababa</p>
+          <!-- <p class="pt-3">come to Oliks Resort</h2> -->
+            <p class="text-center mb-5">Experience a luxurious stay in our fully furnished vacation homes, perfect for family retreats, group getaways, or a serene personal escape.</p>
         </div>
       </div>
 
@@ -37,7 +38,7 @@
         <img src="{% static 'images/lobby.jpg' %}" class="img-fluid" alt="second slide">
         <div class="carousel-caption">
           <h2>Enjoy Luxury Experience</h2>
-          <p class=" pt-3">Experience the warmth of Ghanaian hospitality. Unwind in luxury, right in the heart of Addis Ababa.</p>
+          <p class=" pt-3">Experience the warmth of Ghanaian hospitality. Unwind in luxury, right in the heart of OLIKS HOMES.</p>
         </div>
       </div>
 
@@ -46,7 +47,7 @@
         <img src="{% static 'images/lobby2.jpg' %}" class="img-fluid" alt="third slide">
         <div class="carousel-caption">
           <h2>A Place to Stay and Relax</h2>
-          <p class="pt-3">A gateway to Ethiopia's vibrant heritage and modern comforts. Your exceptional journey begins here</p>
+          <p class="pt-3">A gateway to Kakum's vibrant heritage and modern comforts. Your exceptional journey begins here</p>
         </div>
       </div>
     </div><!-- carousel-inner -->
@@ -60,7 +61,7 @@
             <div class="card h-100 border-0  rounded">
                 <div class="card-body">
                     <h2 class="card-title text-center font-weight-bold">About Us</h2>
-                    <p class="card-text text-justify">Nestled in the heart of Addis Ababa, Adar Hotel offers a perfect blend of modern luxury and traditional Ethiopian charm. Our hotel provides comfortable and elegantly furnished rooms, exceptional dining experiences, and top-notch amenities to ensure a memorable stay. Conveniently located close to major attractions and business districts, Adar Hotel is ideal for both leisure and business travelers. Enjoy warm hospitality and a serene atmosphere, making Adar Hotel your home away from home in Ethiopia's vibrant capital.</p>
+                    <p class="card-text text-justify">Nestled in the heart of OLIKS HOMES, OLIKS HOMES offers a perfect blend of modern luxury and traditional Ghanaian charm. Our hotel provides comfortable and elegantly furnished rooms, exceptional dining experiences, and top-notch amenities to ensure a memorable stay. Conveniently located close to major attractions and business districts, OLIKS HOMES is ideal for both leisure and business travelers. Enjoy warm hospitality and a serene atmosphere, making OLIKS HOMES your home away from home in Kakum's vibrant road.</p>
                     <div class="mt-3">
                         <a href="{% url 'about'%}" class="btn btn-sm btn-primary rounded active" role="button" aria-pressed="true">Read more</a>
                     </div>
@@ -76,88 +77,45 @@
   <!-- End of About -->
 
   <!-- Rooms -->
-  {% if rooms %}
-  <div class="container">
-    <h2 class="text-center font-weight-bold mb-4">Our Rooms</h2>
-    <div class="row">
-      {% for room in rooms %}
-      <div class="col-md-6 mb-4">
-          <div class="card  border-0 h-100 shadow rounded">
-              <img src="{{ room.room_image.url }}" alt="{{ room.room_type.name }}" class="card-img-top rounded lazyload">
-              <div class="card-body">
-                  <h3 class="card-title"><strong>{{ room.room_type.name }} Suite</strong></h3>
-                  <p class="card-text">{{ room.description|truncatewords:20 }}</p>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <strong>Room Number</strong>
-                          <span>{{ room.room_number }}</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <strong>Price per night</strong>
-                          <span>ETB {{ room.price_per_night }}</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <strong>Capacity</strong>
-                          <span>{{ room.capacity }} guests</span>
-                      </li>
-                  </ul>
-                  <div class="mt-3 d-flex justify-content-center">
-                      <a href="{% url 'room_detail' room.id %}" class="btn btn-sm btn-warning rounded">Details</a>&ensp;
-                      <a href="{% url 'booking_create' room.id %}" class="btn btn-sm btn-success rounded">Book now</a>
-                  </div>
-              </div>
-          </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% else %}
-  <div class="container">
-  <div class="alert-danger text-center m-3">
-    <h5 class="m-3">No rooms available.</h5>
-  </div>
-</div>
-  {% endif %}
+  
+  
   <!-- End of Rooms -->
 
   <div class="container my-5">
-    <h2 class="text-center mb-5 font-weight-bold">Attractions in Addis</h2>
+    <h2 class="text-center mb-5 font-weight-bold">Our Features</h2>
     <div class="row">
-      <!-- Attraction 1: Entoto Hill -->
+      <!-- Attraction 1: kitchen -->
       <div class="col-md-4">
         <div class="card  rounded border-1 mb-4 shadow" data-aos="fade" data-aos-duration="4000" data-aos-delay="50" data-aos-offset="300">
-          <img src="{% static 'images/entoto.jpg' %}" style="width: 400;height: 270px;" class="card-img-top rounded" alt="Entoto Hill">
+          <img src="{% static 'images/kitchen.jpeg' %}" style="width: 400;height: 270px;" class="card-img-top rounded" alt="Entoto Hill">
           <div class="card-body">
-            <h5 class="card-title font-weight-bold">Entoto Hill</h5>
-            <p class="card-text">Experience breathtaking views of Addis Ababa from Entoto Hill, a historic site with significant religious landmarks and natural beauty.</p>
-            <div class="d-flex justify-content-center">
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Entoto+Park,+Addis+Ababa,+Ethiopia" class="btn btn-sm rounded btn-warning text-dark rounded font-weight-bold" target="_blank"><i class="bi bi-map"></i> Get Directions</a>
+            <h5 class="card-title font-weight-bold">Kitchen</h5>
+            <p class="card-text">Our fully equipped kitchen features modern appliances, ample counter space, and everything you need to prepare delicious meals during your stay at OLIKS HOMES.</p>            <div class="d-flex justify-content-center">
+            <a href="" class="btn btn-sm rounded btn-warning text-dark rounded font-weight-bold" target="_blank"><i class="bi bi-map"></i> Get Directions</a>
           </div>
           </div>
         </div>
       </div>
-      <!-- Attraction 2: Adwa Museum -->
+      <!-- Attraction 2: Hall -->
       <div class="col-md-4">
         <div class="card rounded border-1 mb-4 shadow" data-aos="fade" data-aos-duration="4000" data-aos-delay="50" data-aos-offset="300">
-          <img src="{% static 'images/adwa.png' %}" style="width: 400;height: 270px;" class="card-img-top rounded" alt="Adwa Museum">
+          <img src="{% static 'images/hall.jpeg' %}" style="width: 400;height: 270px;" class="card-img-top rounded" alt="Adwa Museum">
           <div class="card-body">
-            <h5 class="card-title font-weight-bold">Adwa Museum</h5>
-            <p class="card-text">Visit the Adwa Museum to learn about the historic Battle of Adwa and the enduring legacy of Ethiopian resistance and independence.</p>
-            <div class="d-flex justify-content-center">
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Adwa+Museum,+Addis+Ababa,+Ethiopia" class="btn btn-sm rounded btn-warning text-dark rounded font-weight-bold" target="_blank"><i class="bi bi-map"></i> Get Directions</a>
+            <h5 class="card-title font-weight-bold">Hall</h5>
+            <p class="card-text">Relax and unwind in the spacious hall, designed with cozy seating, elegant decor, and the perfect ambiance for family gatherings or entertainment at OLIKS HOMES.</p>            <div class="d-flex justify-content-center">
+            <a href="" class="btn btn-sm rounded btn-warning text-dark rounded font-weight-bold" target="_blank"><i class="bi bi-map"></i> Get Directions</a>
           </div>
         </div>
         </div>
       </div>
-      <!-- Attraction 3: Friendship Park -->
+      <!-- Attraction 3: Bed Room -->
       <div class="col-md-4">
         <div class="card border-1 rounded mb-4 shadow" data-aos="fade" data-aos-duration="4000" data-aos-delay="50" data-aos-offset="300">
-          <img src="{% static 'images/friendship.webp' %}" style="width: 400;height: 270px;" class="card-img-top rounded" alt="Friendship Park">
+          <img src="{% static 'images/bedroom.jpeg' %}" style="width: 400;height: 270px;" class="card-img-top rounded" alt="Friendship Park">
           <div class="card-body">
-            <h5 class="card-title font-weight-bold">Friendship Park</h5>
-            <p class="card-text">Relax and enjoy the serene environment of Friendship Park, a beautifully landscaped green space perfect for leisure and recreation.</p>
-            <div class="d-flex justify-content-center">
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Friendship+Park,+Addis+Ababa,+Ethiopia" class="btn btn-sm btn-warning text-dark rounded font-weight-bold" target="_blank"><i class="bi bi-map"></i> Get Directions</a>
+            <h5 class="card-title font-weight-bold">Bed Room</h5>
+            <p class="card-text">Enjoy peaceful rest in our beautifully furnished bedroom, featuring a plush bed, soft lighting, and a tranquil atmosphere tailored for your ultimate comfort.</p>            <div class="d-flex justify-content-center">
+            <a href="" class="btn btn-sm btn-warning text-dark rounded font-weight-bold" target="_blank"><i class="bi bi-map"></i> Get Directions</a>
           </div>  
           </div>
           </div>
