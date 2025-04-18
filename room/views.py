@@ -128,6 +128,11 @@ def agreement(request):
 def contact(request):
     return render(request, 'room/contact.html')
 
+def thankyou(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    return render(request, 'room/thankyou.html', {'booking': booking})
+
+
 
 class RoomDetailView(DetailView):
     model = Room
@@ -200,8 +205,8 @@ class BookingCreateView(CreateView):
         self.object = form.save()
 
         send_mail(
-        subject="New Room Booking",
-        message=f"A new booking has been made for Room {room.room_number}.\n\n"
+        subject="New Booking",
+        message=f"A new booking has been made.\n\n"
                 f"Name: {form.cleaned_data['full_name']}\n"
                 f"Email: {form.cleaned_data['email2']}\n"
                 f"Check-in: {form.cleaned_data['check_in_date']}\n"
@@ -212,7 +217,24 @@ class BookingCreateView(CreateView):
         fail_silently=False,
         )
 
-        return redirect('payment_create', booking_id=self.object.id)
+
+        # Send booking details to the user
+        send_mail(
+        subject="Your Booking at Oliks is Received",
+        message=f"Thank you for choosing Oliks!\n\n"
+                f"Here are your booking details:\n"
+                f"Full Name: {form.cleaned_data['full_name']}\n"
+                f"Check-in: {form.cleaned_data['check_in_date']}\n"
+                f"Check-out: {form.cleaned_data['check_out_date']}\n"
+                f"Guests: {form.cleaned_data['guests']}\n\n"
+                f"We look forward to hosting you!",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[form.cleaned_data['email2']],
+        fail_silently=True,
+        )
+
+
+        return redirect('thankyou', booking_id=self.object.id)
 
     def form_invalid(self, form):
         print("Form is invalid")

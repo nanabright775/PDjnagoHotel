@@ -46,7 +46,7 @@ class Custom_user(AbstractUser):
     
     phone_number = models.CharField(max_length=20, validators=[
         RegexValidator(
-            regex=r'^\+233(5|2)\d{8}$',
+            regex=r'^\+233(1|7)\d{8}$',
             message="Phone number must be in the format '+233xxxxxxxx'.",
         ),
     ], help_text="Enter phone number in the format '+233xxxxxxxx'.")

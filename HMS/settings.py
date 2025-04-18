@@ -224,15 +224,23 @@ WSGI_APPLICATION = 'HMS.wsgi.application'
 # }
 
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'hms',
-         'USER': 'postgres',
-         'PASSWORD': '2112',
-         'HOST': 'localhost',
-         'PORT': '5432',
-     }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql',
+#          'NAME': 'hms',
+#          'USER': 'postgres',
+#          'PASSWORD': '2112',
+#          'HOST': 'localhost',
+#          'PORT': '5432',
+#      }
+# }
 
 
 # Password validation
@@ -295,7 +303,7 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False  # Disable TLS if you're using SSL
 EMAIL_HOST_USER = 'developeregyakofi@gmail.com'
 EMAIL_HOST_PASSWORD = 'sqnxijtpnuymsabf'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = 'olikshomes@gmail.com'
 OWNER_EMAIL = EMAIL_HOST_USER
 
 
